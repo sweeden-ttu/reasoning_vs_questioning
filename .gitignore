@@ -8,3 +8,6 @@ checkpoints/
 *.pt
 *.pth
 .pytest_cache/
+artifacts/cursor/
+artifacts/antigravity/
+artifacts/shared_state.jsonl

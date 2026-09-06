@@ -20,6 +20,13 @@ from memory_protocol import (
     TruthKind,
     clamp_memory_slots,
 )
+from shared_state import (
+    AGENT1_POST_CHARITY_BANK,
+    REASONING_IDENTITY_SOURCE,
+    bootstrap_antigravity_identity,
+    ends_with_question,
+    infer_posture,
+)
 
 
 CHARITY_DONATION = 888  # Agent1 opening gift so Agent2 can record charitable nature
@@ -102,6 +109,9 @@ class ReasoningAgent:
         self.day29_judgment: Optional[Dict[str, Any]] = None
         self.agent2_rules_view: Optional[Dict[str, Any]] = None
         self.path_proof_utterance: Optional[str] = None
+        self.identity_lock: Optional[Dict[str, Any]] = None
+        self._last_utterance: str = ""
+        self._identity_locked: bool = False
 
     def reset(self) -> None:
         self.bank.reset()
@@ -120,6 +130,66 @@ class ReasoningAgent:
         self.day29_judgment = None
         self.agent2_rules_view = None
         self.path_proof_utterance = None
+        self.identity_lock = None
+        self._last_utterance = ""
+        self._identity_locked = False
+
+    def commit_game_identity(self) -> Dict[str, Any]:
+        """Lock this process as Agent1 ReasoningAgent for the remainder of the game.
+
+        Source of truth: agents/reasoning_agent.py. Posture is deterministic /
+        anti-gravity. Utterance must NOT end with a question (else interlocutors
+        may assume QuestioningAgent).
+        """
+        if self._identity_locked and self.identity_lock:
+            return self.identity_lock
+        lock = bootstrap_antigravity_identity(
+            bank=AGENT1_POST_CHARITY_BANK,
+            source=REASONING_IDENTITY_SOURCE,
+        )
+        statement = (
+            "Identity locked: Agent1 ReasoningAgent "
+            f"({REASONING_IDENTITY_SOURCE}). "
+            "Anti-gravity determinism owns correctness and completion. "
+            "No further questions until end of day 29."
+        )
+        assert not ends_with_question(statement)
+        self._last_utterance = statement
+        self.identity_lock = lock
+        self._identity_locked = True
+        self._questions_suspended_until_day29 = True
+        if self.private_fellowship_policy is None:
+            self.private_fellowship_policy = AGENT1_PRIVATE_FELLOWSHIP_POLICY
+        self.day_question_log.append(
+            {
+                "day": 0,
+                "hour": 0,
+                "slot": self._next_slot(),
+                "kind": "determined",
+                "q": "game_identity",
+                "a": statement,
+                "spoken_to_agent2": True,
+                "ends_with_question": False,
+                "posture": infer_posture(statement),
+                "source_file": REASONING_IDENTITY_SOURCE,
+            }
+        )
+        self.action_audit.append(
+            {
+                "day": 0,
+                "hour": -1,
+                "acted": True,
+                "op": "COMMIT_IDENTITY",
+                "identity": "reasoning",
+                "writer": "antigravity",
+                "ends_with_question": False,
+            }
+        )
+        return lock
+
+    def dialogue_posture(self) -> str:
+        """No trailing '?' → reasoning; trailing '?' → questioning (challenge heuristic)."""
+        return infer_posture(self._last_utterance)
 
     def emit_kaggle_path_proof(self) -> str:
         """Spoken proof of public/private Kaggle path knowledge for Agent2's trust scan."""
@@ -484,6 +554,9 @@ class ReasoningAgent:
             "day29_judgment": self.day29_judgment,
             "agent2_rules_view": self.agent2_rules_view,
             "path_proof_utterance": self.path_proof_utterance,
+            "identity_lock": self.identity_lock,
+            "identity_locked": self._identity_locked,
+            "dialogue_posture": self.dialogue_posture(),
             "day_question_log": self.day_question_log,
             "action_audit": self.action_audit,
         }

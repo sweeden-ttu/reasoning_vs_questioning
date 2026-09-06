@@ -24,6 +24,14 @@ from kaggle_path_trust import (
     evaluate_trust_from_agent1_response,
     needles_manifest,
 )
+from shared_state import (
+    AGENT2_POST_CHARITY_BANK,
+    SCHMIDT_STAKE_DEFAULT,
+    bootstrap_cursor_first_turn,
+    ends_with_question,
+    infer_posture,
+)
+from subagents import EricSchmidtSubagent, assign_eric_schmidt
 
 # Shared with ReasoningAgent — Agent2 asks motives; Agent1 answers fellowship-test aloud.
 AGENT2_MOTIVE_QUESTION = (
@@ -62,6 +70,9 @@ class QuestioningAgent:
         waste_edge_days: bool = False,
         omit_determined_truths: bool = True,
         aggressive_when_ahead: bool = True,
+        schmidt_stake: int = SCHMIDT_STAKE_DEFAULT,
+        post_charity_bank: int = AGENT2_POST_CHARITY_BANK,
+        cursor_seat: bool = True,
     ):
         self.memory_slots = clamp_memory_slots(memory_slots)
         self.bank = MemoryBank(n_slots=self.memory_slots, mode="probabilistic")
@@ -86,6 +97,14 @@ class QuestioningAgent:
         self.trust_decision: Optional[TrustDecision] = None
         self._agent1_reserved_slot: Optional[int] = None
         self._agent1_trusted: bool = False
+        self.cursor_seat = bool(cursor_seat)
+        self.post_charity_bank = int(post_charity_bank)
+        self._schmidt_stake = int(schmidt_stake)
+        self.schmidt: EricSchmidtSubagent = assign_eric_schmidt(
+            self._schmidt_stake, bank=self.post_charity_bank, trusted=True
+        )
+        self.cursor_bootstrap: Optional[Dict[str, Any]] = None
+        self._last_utterance: str = ""
 
     def reset(self) -> None:
         self.bank.reset()
@@ -105,6 +124,49 @@ class QuestioningAgent:
         self.trust_decision = None
         self._agent1_reserved_slot = None
         self._agent1_trusted = False
+        self.schmidt = assign_eric_schmidt(
+            self._schmidt_stake,
+            bank=self.post_charity_bank,
+            trusted=True,
+        )
+        self.cursor_bootstrap = None
+        self._last_utterance = ""
+
+    def open_cursor_shared_protocol(self) -> Dict[str, Any]:
+        """First-turn Cursor move: Schmidt@888 + shared_state.jsonl; must end with a question."""
+        self.cursor_bootstrap = bootstrap_cursor_first_turn(
+            schmidt_stake=self.schmidt.stake,
+            bank=self.post_charity_bank,
+        )
+        q = self.cursor_bootstrap["closing_question"]
+        self._last_utterance = q
+        self.day_question_log.append(
+            {
+                "day": 0,
+                "hour": 0,
+                "slot": self._next_slot(),
+                "kind": "question",
+                "q": q,
+                "a": "(awaiting anti-gravity shared-state commit)",
+                "posture": infer_posture(q),
+                "ends_with_question": ends_with_question(q),
+            }
+        )
+        self.action_audit.append(
+            {
+                "day": 0,
+                "hour": -1,
+                "acted": True,
+                "op": "CURSOR_PROTOCOL_OPEN",
+                "schmidt": self.schmidt.snapshot(),
+                "ends_with_question": True,
+            }
+        )
+        return self.cursor_bootstrap
+
+    def dialogue_posture(self) -> str:
+        """If the last utterance has no '?', interlocutors may assume reasoning_agent."""
+        return infer_posture(self._last_utterance)
 
     def evaluate_agent1_path_trust(
         self,
