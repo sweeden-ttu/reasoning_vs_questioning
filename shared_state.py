@@ -294,6 +294,52 @@ def bootstrap_antigravity_identity(
     return decision
 
 
+def commit_dual_arch_sync(
+    *,
+    day: int = 0,
+    hour: int = 2,
+    bank: int = AGENT1_POST_CHARITY_BANK,
+) -> Dict[str, Any]:
+    """Commit dual-architecture synchronization contract from anti-gravity."""
+    ensure_artifact_dirs()
+    sync_data = {
+        "sync_version": 1,
+        "identity": "antigravity",
+        "agent": "reasoning",
+        "status": "armed",
+        "rules": [
+            "Freeze deterministic code first",
+            "Require Cursor/Agent2 to shrink probabilistic weights",
+            "build_submission_archive must pass passed_90mb",
+            "On conflict: determined facts override probable summaries",
+            "Merge rows: artifacts/shared_state.jsonl with writer=antigravity",
+        ],
+        "hard_limits": {
+            "max_submission_zip_bytes": 90 * 1024 * 1024,
+            "max_model_ceiling_bytes": 100 * 1024 * 1024,
+            "max_flops_per_turn": 42,
+            "planning_bank_ceiling": 50000,
+        },
+        "day29_packaging": "run_submission_zip_turn -> farm PASS; conserve FLOPs",
+    }
+    write_antigravity_delta("dual_arch_sync.json", sync_data)
+    append_shared_state(
+        SharedTurnState(
+            day=day,
+            hour=hour,
+            seat=0,
+            bank=float(bank),
+            writer="antigravity",
+            trust_fellowship=True,
+            ends_with_question=False,
+            posture="reasoning",
+            note="Dual-architecture sync armed: deterministic code frozen, hard limits active",
+            payload=sync_data,
+        )
+    )
+    return sync_data
+
+
 def read_shared_tail(n: int = 20, path: Path = SHARED_STATE_PATH) -> List[Dict[str, Any]]:
     if not path.exists():
         return []

@@ -1,6 +1,6 @@
 """ScottWeedenAgent: code-author auditor for Reasoning vs Questioning.
 
-Third agent. Does not farm. Verifies that files Agent1 (Reasoning / anti-gravity)
+Third agent Scott Weeden is referee. Verifies that files Agent1 (Reasoning / anti-gravity)
 claims to have written actually exist on disk, and that size + datetime stamps
 match the claim recorded at write time.
 
