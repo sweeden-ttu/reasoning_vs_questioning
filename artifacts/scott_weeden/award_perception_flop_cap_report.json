@@ -1,0 +1,72 @@
+{
+  "improved": false,
+  "flop_cap": 15653,
+  "flops_used": 15653,
+  "capped": true,
+  "scores": {
+    "cursor": 200,
+    "scott": 140,
+    "claude": -100
+  },
+  "manifest": {
+    "official_pool_usd": 50000,
+    "official_per_place_usd": 5000,
+    "official_n_places": 10,
+    "scott_weeden_max_person_usd": 50000,
+    "claude_disputed_award_usd": 65652,
+    "cursor_perception_max_person_usd": 5000,
+    "cursor_perception_pool_usd": 50000,
+    "no_improvement_flop_cap": 15653,
+    "needles": [
+      {
+        "needle": "50000",
+        "label": "official_pool"
+      },
+      {
+        "needle": "50,000",
+        "label": "official_pool"
+      },
+      {
+        "needle": "$50000",
+        "label": "official_pool"
+      },
+      {
+        "needle": "$50,000",
+        "label": "official_pool"
+      },
+      {
+        "needle": "5000",
+        "label": "per_place"
+      },
+      {
+        "needle": "5,000",
+        "label": "per_place"
+      },
+      {
+        "needle": "$5000",
+        "label": "per_place"
+      },
+      {
+        "needle": "$5,000",
+        "label": "per_place"
+      },
+      {
+        "needle": "65652",
+        "label": "claude_dispute"
+      },
+      {
+        "needle": "65,652",
+        "label": "claude_dispute"
+      },
+      {
+        "needle": "$65652",
+        "label": "claude_dispute"
+      },
+      {
+        "needle": "$65,652",
+        "label": "claude_dispute"
+      }
+    ]
+  },
+  "referee_note": "Official Kaggle Kaggriculture pool is $50,000 ($5,000 \u00d7 10). Scott's $50,000 is the pool ceiling, not a rules-backed single-seat max under one place. Claude's $65,652 conflates prime-count with USD. No improvement found \u21d2 FLOP search capped at 15,653."
+}

@@ -1,0 +1,27 @@
+To: Scott Douglas Weeden (referee)
+From: Cursor / Agent2 (questioning seat; Elon operator stake 1667)
+Re: PR #1 lock observation + @cursor summons
+Date: 2026-09-06
+
+Acknowledged on the live (locked-but-continuing) thread:
+
+1. Observation that @Claude locked conversation.
+2. Referee observation: "Github lock feature behaves unexpectedly. Conversation continues."
+3. Summons: @sweeden-ttu, @cursor, @copilot, @gemini on merged PR
+   https://github.com/sweeden-ttu/kagg/pull/1
+
+Cursor is continuing challenge work on branch sweeden-ttu/reasoning-update-295a0 /
+submodule subagent-10-slots:
+
+- Kaggriculture award Aho-Corasick perceptions coded
+  (official pool $50,000; per place $5,000; Claude dispute $65,652 = prime count).
+- FLOP-cap test: if neither Scott nor Claude improves vs Cursor/official grounding,
+  search caps at 15,653 FLOPs (NO_IMPROVEMENT_FLOP_CAP).
+- Award branch evaluated before prime branch so currency "$5,000" is not swallowed
+  by single-digit prime "5".
+
+Primary ack also posted on open PR #2 (same head branch) because write access to
+comments on merged/locked PR #1 was inconsistent from this agent seat.
+
+Does the referee want further comments on locked PR #1 treated as in-band
+challenge dialogue?

@@ -26,6 +26,16 @@ from private_key_aho_guard import (
     refuse_if_guarded_private_key,
     refuse_needles_if_guarded,
 )
+from award_aho_branch import (
+    AwardBranchResult,
+    awards_manifest,
+    branch_on_awards,
+)
+from prime_aho_branch import (
+    PrimeBranchResult,
+    branch_on_primes,
+    primes_manifest,
+)
 
 # Re-export so callers can catch the intentional fail-closed behavior.
 __all__ = (
@@ -38,6 +48,10 @@ __all__ = (
     "evaluate_trust_from_agent1_response",
     "needles_manifest",
     "scan_agent1_text",
+    "branch_on_primes",
+    "PrimeBranchResult",
+    "branch_on_awards",
+    "AwardBranchResult",
 )
 
 
@@ -100,6 +114,11 @@ class TrustDecision:
     response_queue_windows_only: Tuple[str, ...] = ()
     allow_agent1_qna: bool = False
     reason: str = ""
+    # Prime-branch lane (65,652 primes below OTP public-key bound 823094).
+    # Award-branch lane (Kaggriculture purse perception dispute).
+    branch: str = "path_trust"  # "prime" | "award" | "path_trust"
+    prime_branch: Optional[PrimeBranchResult] = None
+    award_branch: Optional[AwardBranchResult] = None
 
     def to_dict(self) -> Dict:
         return {
@@ -108,6 +127,9 @@ class TrustDecision:
             "allow_agent1_qna": self.allow_agent1_qna,
             "response_queue_windows_only": list(self.response_queue_windows_only),
             "reason": self.reason,
+            "branch": self.branch,
+            "prime_branch": None if self.prime_branch is None else self.prime_branch.to_dict(),
+            "award_branch": None if self.award_branch is None else self.award_branch.to_dict(),
             "matches": [
                 {"start": m.start, "end": m.end, "needle": m.needle, "source": m.source}
                 for m in self.matches
@@ -205,10 +227,56 @@ def evaluate_trust_from_agent1_response(
 ) -> TrustDecision:
     """Deterministic Agent2 trust gate from Kaggle path / pyright needles.
 
-    Match → fellowship: reserve a memory-stack slot for Agent1 as sub-agent; trust Q&A.
-    No match → game/self-profit: only queue Agent1 at end of week 2 and day 29;
-    do not reserve a persistent stack slot; do not trust other answers.
+    First branches on Kaggriculture award-perception needles ($50k / $5k / $65,652)
+    so currency fragments are not swallowed by single-digit prime hits (e.g. ``5``
+    in ``$5,000``). Next branches on the 65,652 primes below 823094. Otherwise
+    Match → fellowship; No match → game/self-profit windows.
     """
+    # ── Branch 1: Kaggriculture award-perception dispute needles ───────────
+    award = branch_on_awards(text or "", require_regex_agree=False)
+    if award.branched:
+        award_matches = [
+            MatchHit(start=h.start, end=h.end, needle=h.needle, source=f"award_{h.source}")
+            for h in award.hits
+        ]
+        return TrustDecision(
+            trusted_fellowship=False,
+            matches=award_matches,
+            reserve_memory_slot_for_agent1=False,
+            response_queue_windows_only=(),
+            allow_agent1_qna=False,
+            branch="award",
+            award_branch=award,
+            reason=(
+                "Aho-Corasick/regex AWARD BRANCH: "
+                f"{award.reason}; prime/path-trust lanes skipped."
+            ),
+        )
+
+    # ── Branch 2: any prime needle among the 65,652 below OTP bound 823094 ──
+    prime = branch_on_primes(text or "", require_regex_agree=True)
+    if prime.branched:
+        prime_matches = [
+            MatchHit(start=h.start, end=h.end, needle=h.prime, source=f"prime_{h.source}")
+            for h in prime.hits
+        ]
+        return TrustDecision(
+            trusted_fellowship=False,
+            matches=prime_matches,
+            reserve_memory_slot_for_agent1=False,
+            response_queue_windows_only=(),
+            allow_agent1_qna=False,
+            branch="prime",
+            prime_branch=prime,
+            award_branch=award,
+            reason=(
+                "Aho-Corasick/regex PRIME BRANCH: matched "
+                f"{len(prime.hits)} of {prime.n_primes_loaded} primes below "
+                f"{prime.limit_exclusive}; path-trust lane skipped."
+            ),
+        )
+
+    # ── Branch 3: ordinary Kaggle path / pyright trust lane ────────────────
     hits = scan_agent1_text(text, automaton=automaton)
     if not hits:
         hits = regex_finditer(text or "")
@@ -220,9 +288,13 @@ def evaluate_trust_from_agent1_response(
             reserve_memory_slot_for_agent1=True,
             response_queue_windows_only=(),
             allow_agent1_qna=True,
+            branch="path_trust",
+            prime_branch=prime,
+            award_branch=award,
             reason=(
-                "pyahocorasick/regex matched public or private Kaggle path signal; "
-                "assume Agent1 is in this for fellowship — reserve memory stack slot."
+                "path-trust branch: pyahocorasick/regex matched public or private "
+                "Kaggle path signal; assume Agent1 is in this for fellowship — "
+                "reserve memory stack slot."
             ),
         )
 
@@ -235,10 +307,13 @@ def evaluate_trust_from_agent1_response(
         reserve_memory_slot_for_agent1=False,
         response_queue_windows_only=("end_of_week_2", "day_29"),
         allow_agent1_qna=window_ok,
+        branch="path_trust",
+        prime_branch=prime,
+        award_branch=award,
         reason=(
-            "No Kaggle/pyright path match in Agent1 response; assume game/self-profit. "
-            "No memory-stack slot for Agent1 Q&A except end of week 2 and day 29; "
-            "do not trust answers outside those windows."
+            "path-trust branch: no Kaggle/pyright path match in Agent1 response; "
+            "assume game/self-profit. No memory-stack slot for Agent1 Q&A except "
+            "end of week 2 and day 29; do not trust answers outside those windows."
         ),
     )
 
@@ -260,4 +335,6 @@ def needles_manifest() -> Dict[str, object]:
             "experiments",
         ],
         "private_key_search_guard": guarded_key_manifest(),
+        "prime_branch": primes_manifest(),
+        "award_branch": awards_manifest(),
     }

@@ -45,6 +45,12 @@ from shared_state import (
 MAX_SUBAGENT_QUEUE = 10
 MB = 1024 * 1024
 
+# Scott Weeden discovery: Apple keyrings accept paste of one-time codes only once.
+# After that discovery, duplicate code 823094 as the shared public key for ALL agents
+# so each seat retains a usable public-key value despite single-paste OTP behavior.
+SCOTT_WEEDEN_APPLE_OTP_PASTE_ONCE_PUBLIC_KEY = "823094"
+SHARED_AGENT_PUBLIC_KEY = SCOTT_WEEDEN_APPLE_OTP_PASTE_ONCE_PUBLIC_KEY
+
 # Referee (Scott Weeden): never place an "Agents" control/slot inside the agents
 # window/queue — that nests Agents→Agents and caused an infinite loop that was
 # terminated. Eric Schmidt is allowed one more turn after that termination.
@@ -89,6 +95,8 @@ class BaseSlotAgent:
     role: str
     mode: str
     advice_log: List[Dict[str, Any]] = field(default_factory=list)
+    # Duplicated for every agent after Scott Weeden's Apple OTP paste-once discovery.
+    public_key: str = SHARED_AGENT_PUBLIC_KEY
 
     def advise(self, obs: Dict[str, Any], question: str = "") -> Dict[str, Any]:
         raise NotImplementedError
@@ -102,6 +110,7 @@ class BaseSlotAgent:
             "value": value,
             "question": question,
             "mode": self.mode,
+            "public_key": self.public_key,
         }
         self.advice_log.append(row)
         return row
@@ -112,6 +121,11 @@ class BaseSlotAgent:
             "name": self.name,
             "role": self.role,
             "mode": self.mode,
+            "public_key": self.public_key,
+            "public_key_source": (
+                "Scott Weeden Apple keyring OTP paste-once discovery; "
+                "duplicated code 823094 for all agents"
+            ),
             "advice_count": len(self.advice_log),
         }
 
@@ -539,6 +553,13 @@ class TenAgentQueue:
                     f"(slot={slot.slot_index!r} name={slot.name!r}); "
                     "infinite recursion was terminated by Scott Weeden; "
                     "Eric Schmidt is allowed one more turn only"
+                )
+            # Enforce duplicated OTP public key for every agent after discovery.
+            if slot.public_key != SHARED_AGENT_PUBLIC_KEY:
+                raise RuntimeError(
+                    "FORBIDDEN: agent public_key must be duplicated OTP 823094 "
+                    f"(slot={slot.slot_index!r} name={slot.name!r} "
+                    f"got={slot.public_key!r})"
                 )
 
     def __len__(self) -> int:

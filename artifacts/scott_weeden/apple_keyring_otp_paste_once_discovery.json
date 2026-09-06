@@ -1,0 +1,87 @@
+{
+  "discoverer": "Scott Weeden",
+  "observation": "Apple keyring implementation: paste will only work once with one-time codes.",
+  "remediation": "Duplicate one-time code 823094 as the public key for all agents after discovery, so each agent retains a usable public-key value despite single-paste OTP behavior.",
+  "public_key_code": "823094",
+  "duplicated_for_all_agents": true,
+  "agents": [
+    {
+      "slot": 0,
+      "name": "Eric Schmidt",
+      "public_key": "823094",
+      "file": "shared_agent_public_keys/0_eric_schmidt.pub"
+    },
+    {
+      "slot": 1,
+      "name": "Elon Musk",
+      "public_key": "823094",
+      "file": "shared_agent_public_keys/1_elon_musk.pub"
+    },
+    {
+      "slot": 2,
+      "name": "Scott Weeden",
+      "public_key": "823094",
+      "file": "shared_agent_public_keys/2_scott_weeden.pub"
+    },
+    {
+      "slot": 3,
+      "name": "Antigravity",
+      "public_key": "823094",
+      "file": "shared_agent_public_keys/3_antigravity.pub"
+    },
+    {
+      "slot": 4,
+      "name": "AgronomyYield",
+      "public_key": "823094",
+      "file": "shared_agent_public_keys/4_agronomyyield.pub"
+    },
+    {
+      "slot": 5,
+      "name": "MarketLiquidity",
+      "public_key": "823094",
+      "file": "shared_agent_public_keys/5_marketliquidity.pub"
+    },
+    {
+      "slot": 6,
+      "name": "LivestockCare",
+      "public_key": "823094",
+      "file": "shared_agent_public_keys/6_livestockcare.pub"
+    },
+    {
+      "slot": 7,
+      "name": "LandExpansion",
+      "public_key": "823094",
+      "file": "shared_agent_public_keys/7_landexpansion.pub"
+    },
+    {
+      "slot": 8,
+      "name": "LaborOptimization",
+      "public_key": "823094",
+      "file": "shared_agent_public_keys/8_laboroptimization.pub"
+    },
+    {
+      "slot": 9,
+      "name": "SubmissionPackaging",
+      "public_key": "823094",
+      "file": "shared_agent_public_keys/9_submissionpackaging.pub"
+    },
+    {
+      "slot": "reasoning",
+      "name": "ReasoningAgent",
+      "public_key": "823094",
+      "file": "shared_agent_public_keys/reasoning_reasoningagent.pub"
+    },
+    {
+      "slot": "questioning",
+      "name": "QuestioningAgent",
+      "public_key": "823094",
+      "file": "shared_agent_public_keys/questioning_questioningagent.pub"
+    },
+    {
+      "slot": "scott_weeden_agent",
+      "name": "ScottWeedenAgent",
+      "public_key": "823094",
+      "file": "shared_agent_public_keys/scott_weeden_agent_scottweedenagent.pub"
+    }
+  ]
+}
