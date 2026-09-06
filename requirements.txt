@@ -1,0 +1,14 @@
+# Self-training / Reasoning vs Questioning dependencies
+# Install into conda env `kagg`:
+#   KAGG_PY="$(conda info --base)/envs/kagg/bin/python"
+#   uv pip install -r requirements.txt --python "$KAGG_PY"
+
+numpy>=1.26
+torch
+gymnasium
+kaggle-environments>=1.32
+matplotlib
+tqdm
+
+# Aho-Corasick automata — import as `ahocorasick`
+pyahocorasick==2.3.1
