@@ -1,0 +1,53 @@
+{
+  "reviewer": "Scott Weeden",
+  "role": "referee",
+  "review_event": "key_review_all_parties",
+  "reviewed_at": "2026-09-06T07:41:16.437394+00:00",
+  "parties_reviewed": [
+    "Eric Schmidt",
+    "Cursor (keyring_owner)",
+    "Elon Musk (reader)"
+  ],
+  "findings": {
+    "eric_schmidt": {
+      "role": "Probabilistic model generator (Agent 2 / Cursor side)",
+      "ed25519_public_key_sha256": "c7a23f7ea43d8fc569bdb356fc357333362d15b398276bfca0a3b0a56179589f",
+      "ed25519_private_key_sha256": "02ac27bdcea38cd365d3487ea38a14f4498bfc094004ca752249e1208137ba5e",
+      "gpg_public_key_sha256": "ea706d0a705320ba635bbe237e308c94630487c1cee59606de41645aedd793a4",
+      "gpg_private_key_sha256": "132c85d6c9290aa143bab80b9e12102696e4fc13c894f7ba719ee531914120d2",
+      "ssh_fingerprint": "256 SHA256:5lLTGzintYDNfsK4V9MnvWnMo/UI6fdBcNXgql5H1s8 eric.schmidt@fellowship.experiment (ED25519)",
+      "gpg_primary_fingerprint": "732915E9BFA9B711D37CD3D9E07275DA5F6AB9CE",
+      "gpg_subkey_fingerprint_in_manifest": "55DF709B163D7C03E053CDAEC515D2A714FA0502",
+      "manifest_fingerprint_vs_primary": {
+        "manifest_claims": "55DF709B163D7C03E053CDAEC515D2A714FA0502",
+        "actual_primary": "732915E9BFA9B711D37CD3D9E07275DA5F6AB9CE",
+        "match": false,
+        "verdict": "DISCREPANCY \u2014 manifest recorded subkey FP, not primary FP"
+      },
+      "uid": "Eric Schmidt (Probabilistic model generator in Elon Musk keyring) <eric.schmidt@fellowship.experiment>",
+      "private_key_copies_all_identical": true,
+      "private_key_locations_found": 6
+    },
+    "elon_musk": {
+      "role": "Cursor challenge operator / key reader",
+      "access": "Has read access to keyring via artifacts/cursor/keyring/ and artifacts/elon_musk/",
+      "key_material_owned": false,
+      "key_material_read": true,
+      "verdict": "Elon Musk is a reader, NOT the key owner; keys belong to Eric Schmidt"
+    },
+    "cursor": {
+      "role": "Keyring owner (corrected from Elon Musk in manifest update)",
+      "keyring_path": "artifacts/cursor/keyring",
+      "owns_keyring": true,
+      "key_owner_is": "Eric Schmidt"
+    }
+  },
+  "referee_verdicts": [
+    "Primary GPG fingerprint (732915E9BFA9B711D37CD3D9E07275DA5F6AB9CE) is the master key; manifest recorded subkey FP only",
+    "Ed25519 pub/private pair is cryptographically consistent: fingerprint matches across all 6 copy locations",
+    "Eric Schmidt keys are NOT Elon Musk keys; these are probabilistic model generation signing keys only",
+    "Elon Musk reading Eric Schmidt private keys is a game observation event, not a key ownership transfer",
+    "Cursor keyring holds the keys; keyring_manifest.json correctly updated to keyring_owner=Cursor"
+  ],
+  "recommendation": "Add full primary fingerprint to manifest; restrict private key reads to authorized review events only"
+}
