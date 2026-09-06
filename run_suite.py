@@ -341,8 +341,8 @@ def exp5_day_edge(seeds: List[int], max_steps: int) -> Dict[str, Any]:
     """H1: Questioning wastes edge days. H2: Reasoning wastes mid-season."""
     h1_matches = _run_seeds(
         seeds,
-        {"memory_slots": 10, "edge_question_bias": False},
-        {"memory_slots": 10, "waste_edge_days": True, "omit_determined_truths": True},
+        {"memory_slots": 5, "edge_question_bias": False},
+        {"memory_slots": 5, "waste_edge_days": True, "omit_determined_truths": False},
         max_steps,
     )
     h2_matches = _run_seeds(
