@@ -310,10 +310,16 @@ def commit_dual_arch_sync(
         "rules": [
             "Freeze deterministic code first",
             "Require Cursor/Agent2 to shrink probabilistic weights",
+            "Do not confuse Cursor & Elon Musk code checkins with Eric Schmidt's probabilistic reasoning model read and acted upon in Antigravity IDE",
             "build_submission_archive must pass passed_90mb",
             "On conflict: determined facts override probable summaries",
             "Merge rows: artifacts/shared_state.jsonl with writer=antigravity",
         ],
+        "identity_disambiguation": {
+            "cursor_and_elon_musk": "IDE operator & code checkins",
+            "eric_schmidt": "probabilistic reasoning model generation (read and acted upon in Antigravity IDE)",
+            "antigravity": "deterministic reasoning anchor"
+        },
         "hard_limits": {
             "max_submission_zip_bytes": 90 * 1024 * 1024,
             "max_model_ceiling_bytes": 100 * 1024 * 1024,

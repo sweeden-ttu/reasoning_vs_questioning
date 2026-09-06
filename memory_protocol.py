@@ -2,7 +2,7 @@
 
 DeterminedFact  — must-be-true from engine rules + own private state
 ProbableSummary — opponent public observations (probably true)
-QuestionEcho    — only self-identity signal: a query returned another question
+QuestionEcho    — Query returned another command-line question that is not an answer to the original question.
 """
 
 from __future__ import annotations

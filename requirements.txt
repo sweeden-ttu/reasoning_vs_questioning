@@ -1,7 +1,10 @@
 # Self-training / Reasoning vs Questioning dependencies
 # Install into conda env `kagg`:
 #   KAGG_PY="$(conda info --base)/envs/kagg/bin/python"
-#   uv pip install -r requirements.txt --python "$KAGG_PY"
+#   uv pip install --find-links ../wheels/pyahocorasick -r requirements.txt --python "$KAGG_PY"
+#
+# Vendored dual-arch wheels live at repo-root wheels/pyahocorasick/
+# (Linux x86_64 + aarch64; macOS universal2).
 
 numpy>=1.26
 torch
@@ -11,4 +14,5 @@ matplotlib
 tqdm
 
 # Aho-Corasick automata — import as `ahocorasick`
+--find-links=../wheels/pyahocorasick
 pyahocorasick==2.3.1

@@ -1,0 +1,18 @@
+{
+  "package": "pyahocorasick",
+  "version": "2.3.1",
+  "note": "Official PyPI wheels are dual-tagged manylinux2014_* AND manylinux_2_17_*. Behavioral diffs of interest are primarily ABI/arch/Python (cp310 x86_64 vs cp312 aarch64), not the tag alias alone.",
+  "wheels_under_test": [
+    {
+      "filename": "pyahocorasick-2.3.1-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+      "tags": ["cp310", "manylinux2014_x86_64", "manylinux_2_17_x86_64"],
+      "sha256": "1e48e921996044f7d161368079663608813e82dd9c22a74ba5a51abc326bb731"
+    },
+    {
+      "filename": "pyahocorasick-2.3.1-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.whl",
+      "tags": ["cp312", "manylinux2014_aarch64", "manylinux_2_17_aarch64"],
+      "sha256": "9a4d4f5b05ce9d8af82c40ed39cd6892613e9e8bf1b5e6ea79009c566430adb1"
+    }
+  ],
+  "local_vendor_dir": "wheels/pyahocorasick"
+}

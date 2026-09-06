@@ -1,16 +1,16 @@
 {
   "all_ok": true,
-  "audited_at": "2026-09-06T03:06:54.803802+00:00",
+  "audited_at": "2026-09-06T05:38:44.359393+00:00",
   "auditor": "scott_weeden",
   "authors_md": {
-    "detail": "AUTHORS.md ON DISK size=772 mtime=2026-09-06T02:31:12.099974+00:00; first_line='# Attribution \u2014 Reasoning vs Questioning'",
+    "detail": "AUTHORS.md ON DISK size=910 mtime=2026-09-06T03:25:16.757854+00:00; first_line='# Attribution \u2014 Reasoning vs Questioning'",
     "exists": true,
-    "mtime_iso": "2026-09-06T02:31:12.099974+00:00",
+    "mtime_iso": "2026-09-06T03:25:16.757854+00:00",
     "mtime_match": true,
-    "mtime_ns": 1788661872099973747,
+    "mtime_ns": 1788665116757853713,
     "ok": true,
     "path": "AUTHORS.md",
-    "size_bytes": 772,
+    "size_bytes": 910,
     "size_match": true
   },
   "claims_checked": 11,
@@ -34,23 +34,23 @@
     {
       "detail": "OK",
       "exists": true,
-      "mtime_iso": "2026-09-06T02:31:12.099974+00:00",
+      "mtime_iso": "2026-09-06T03:25:16.757854+00:00",
       "mtime_match": true,
-      "mtime_ns": 1788661872099973747,
+      "mtime_ns": 1788665116757853713,
       "ok": true,
       "path": "AUTHORS.md",
-      "size_bytes": 772,
+      "size_bytes": 910,
       "size_match": true
     },
     {
       "detail": "OK",
       "exists": true,
-      "mtime_iso": "2026-09-06T02:28:16.650347+00:00",
+      "mtime_iso": "2026-09-06T03:35:48.997090+00:00",
       "mtime_match": true,
-      "mtime_ns": 1788661696650347495,
+      "mtime_ns": 1788665748997089542,
       "ok": true,
       "path": "agents/reasoning_agent.py",
-      "size_bytes": 23753,
+      "size_bytes": 24189,
       "size_match": true
     },
     {
@@ -67,23 +67,23 @@
     {
       "detail": "OK",
       "exists": true,
-      "mtime_iso": "2026-09-06T02:50:26.579770+00:00",
+      "mtime_iso": "2026-09-06T05:38:20.756015+00:00",
       "mtime_match": true,
-      "mtime_ns": 1788663026579769734,
+      "mtime_ns": 1788673100756014642,
       "ok": true,
       "path": "shared_state.py",
-      "size_bytes": 12649,
+      "size_bytes": 13096,
       "size_match": true
     },
     {
       "detail": "OK",
       "exists": true,
-      "mtime_iso": "2026-09-06T03:06:42.690354+00:00",
+      "mtime_iso": "2026-09-06T03:35:18.443637+00:00",
       "mtime_match": true,
-      "mtime_ns": 1788664002690354213,
+      "mtime_ns": 1788665718443636795,
       "ok": true,
       "path": "subagents.py",
-      "size_bytes": 15882,
+      "size_bytes": 2386,
       "size_match": true
     },
     {
@@ -100,12 +100,12 @@
     {
       "detail": "OK",
       "exists": true,
-      "mtime_iso": "2026-09-06T01:52:36.752137+00:00",
+      "mtime_iso": "2026-09-06T04:31:32.635323+00:00",
       "mtime_match": true,
-      "mtime_ns": 1788659556752137512,
+      "mtime_ns": 1788669092635322688,
       "ok": true,
       "path": "memory_protocol.py",
-      "size_bytes": 14850,
+      "size_bytes": 14882,
       "size_match": true
     },
     {
@@ -133,12 +133,12 @@
     {
       "detail": "OK",
       "exists": true,
-      "mtime_iso": "2026-09-06T02:50:31.197503+00:00",
+      "mtime_iso": "2026-09-06T05:38:21.622026+00:00",
       "mtime_match": true,
-      "mtime_ns": 1788663031197502732,
+      "mtime_ns": 1788673101622025669,
       "ok": true,
       "path": "artifacts/antigravity/dual_arch_sync.json",
-      "size_bytes": 656,
+      "size_bytes": 1053,
       "size_match": true
     }
   ],
