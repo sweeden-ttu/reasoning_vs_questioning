@@ -11,12 +11,15 @@ from __future__ import annotations
 
 from agents.ten_agents import (
     MAX_SUBAGENT_QUEUE,
+    OVERFLOW_AGENT_CLASSES,
     SUBAGENT_CLASSES,
     TEN_AGENT_CLASSES,
     AgronomyYieldAgent,
     AgronomyYieldSubagent,
     AntigravityAgent,
     AntigravitySubagent,
+    DarioAmodeiAgent,
+    DarioAmodeiSubagent,
     ElonMuskAgent,
     ElonMuskSubagent,
     EricSchmidtAgent,
@@ -37,6 +40,7 @@ from agents.ten_agents import (
     TenAgentQueue,
     assign_agronomy_yield,
     assign_antigravity,
+    assign_dario_amodei,
     assign_elon_musk,
     assign_eric_schmidt,
     assign_labor_optimization,

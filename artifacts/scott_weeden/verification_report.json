@@ -1,23 +1,23 @@
 {
   "all_ok": true,
-  "audited_at": "2026-09-06T07:42:11.871780+00:00",
+  "audited_at": "2026-09-06T09:17:28.674293+00:00",
   "auditor": "scott_weeden",
   "authors_md": {
-    "detail": "AUTHORS.md ON DISK size=910 mtime=2026-09-06T07:28:56.082059+00:00; first_line='# Attribution \u2014 Reasoning vs Questioning'",
+    "detail": "AUTHORS.md ON DISK size=910 mtime=2026-09-06T09:16:49.172141+00:00; first_line='# Attribution \u2014 Reasoning vs Questioning'",
     "exists": true,
-    "mtime_iso": "2026-09-06T07:28:56.082059+00:00",
+    "mtime_iso": "2026-09-06T09:16:49.172141+00:00",
     "mtime_match": true,
-    "mtime_ns": 1788679736082058942,
+    "mtime_ns": 1788686209172140652,
     "ok": true,
     "path": "AUTHORS.md",
     "size_bytes": 910,
     "size_match": true
   },
-  "claims_checked": 16,
+  "claims_checked": 22,
   "failed": 0,
   "failures": [],
   "mtime_tolerance_ns": 0,
-  "passed": 16,
+  "passed": 22,
   "repo_root": "/Users/sweeden/kagg/reasoning_vs_questioning",
   "results": [
     {
@@ -34,9 +34,9 @@
     {
       "detail": "OK",
       "exists": true,
-      "mtime_iso": "2026-09-06T07:28:56.082059+00:00",
+      "mtime_iso": "2026-09-06T09:16:49.172141+00:00",
       "mtime_match": true,
-      "mtime_ns": 1788679736082058942,
+      "mtime_ns": 1788686209172140652,
       "ok": true,
       "path": "AUTHORS.md",
       "size_bytes": 910,
@@ -45,9 +45,9 @@
     {
       "detail": "OK",
       "exists": true,
-      "mtime_iso": "2026-09-06T07:28:56.081889+00:00",
+      "mtime_iso": "2026-09-06T09:16:49.172100+00:00",
       "mtime_match": true,
-      "mtime_ns": 1788679736081888899,
+      "mtime_ns": 1788686209172100194,
       "ok": true,
       "path": "agents/reasoning_agent.py",
       "size_bytes": 23620,
@@ -78,12 +78,12 @@
     {
       "detail": "OK",
       "exists": true,
-      "mtime_iso": "2026-09-06T03:35:18.443637+00:00",
+      "mtime_iso": "2026-09-06T07:52:20.082448+00:00",
       "mtime_match": true,
-      "mtime_ns": 1788665718443636795,
+      "mtime_ns": 1788681140082448221,
       "ok": true,
       "path": "subagents.py",
-      "size_bytes": 2386,
+      "size_bytes": 2486,
       "size_match": true
     },
     {
@@ -194,6 +194,72 @@
       "ok": true,
       "path": "artifacts/cursor/final_90mb_assembly.json",
       "size_bytes": 5015,
+      "size_match": true
+    },
+    {
+      "detail": "OK",
+      "exists": true,
+      "mtime_iso": "2026-09-06T07:50:48.336789+00:00",
+      "mtime_match": true,
+      "mtime_ns": 1788681048336788644,
+      "ok": true,
+      "path": "artifacts/dario_amodei/keyring/dario_keyring_manifest.json",
+      "size_bytes": 2511,
+      "size_match": true
+    },
+    {
+      "detail": "OK",
+      "exists": true,
+      "mtime_iso": "2026-09-06T07:50:48.336960+00:00",
+      "mtime_match": true,
+      "mtime_ns": 1788681048336960020,
+      "ok": true,
+      "path": "artifacts/scott_weeden/dario_amodei_root_view/dario_keyring_manifest.json",
+      "size_bytes": 2511,
+      "size_match": true
+    },
+    {
+      "detail": "OK",
+      "exists": true,
+      "mtime_iso": "2026-09-06T07:50:48.179299+00:00",
+      "mtime_match": true,
+      "mtime_ns": 1788681048179299358,
+      "ok": true,
+      "path": "artifacts/scott_weeden/dario_amodei_root_view/dario_amodei_public.asc",
+      "size_bytes": 2338,
+      "size_match": true
+    },
+    {
+      "detail": "OK",
+      "exists": true,
+      "mtime_iso": "2026-09-06T07:51:17.514950+00:00",
+      "mtime_match": true,
+      "mtime_ns": 1788681077514950047,
+      "ok": true,
+      "path": "artifacts/communications/to_scott_weeden_dario_amodei_key_registration.md",
+      "size_bytes": 3679,
+      "size_match": true
+    },
+    {
+      "detail": "OK",
+      "exists": true,
+      "mtime_iso": "2026-09-06T07:58:34.017246+00:00",
+      "mtime_match": true,
+      "mtime_ns": 1788681514017245565,
+      "ok": true,
+      "path": "public_key_corrasick_guard.py",
+      "size_bytes": 11870,
+      "size_match": true
+    },
+    {
+      "detail": "OK",
+      "exists": true,
+      "mtime_iso": "2026-09-06T08:38:26.317796+00:00",
+      "mtime_match": true,
+      "mtime_ns": 1788683906317796131,
+      "ok": true,
+      "path": "artifacts/communications/to_scott_weeden_cursor_timeout_event.md",
+      "size_bytes": 2222,
       "size_match": true
     }
   ],

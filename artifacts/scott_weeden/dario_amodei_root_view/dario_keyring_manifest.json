@@ -1,0 +1,41 @@
+{
+  "owner": "Dario Amodei",
+  "role": "AI safety correspondent \u2014 observer/correspondent slot",
+  "slot_designation": "SLOT_OVERFLOW (outside 10-slot hard cap; Scott Weeden authorised observer)",
+  "generated_at": "2026-09-06T07:50:47.726541+00:00",
+  "gpg": {
+    "key_id": "72B589343EA8220C",
+    "primary_fingerprint": "C538F9F7047750ED8671BDDF72B589343EA8220C",
+    "subkey_fingerprint": "F6A3F9FC27DF57FF146F6A9C5553A874297A5D64",
+    "uid": "Dario Amodei (AI safety correspondent in fellowship experiment) <dario.amodei@fellowship.experiment>",
+    "algorithm": "RSA-2048",
+    "public_key_file": "dario_amodei_public.asc",
+    "private_key_file": "dario_amodei_private.asc",
+    "sha256_public": "69c9c2c2a0b0ea1b50fcf9e9b3d291701f6ef489992a6e0244b595460f3b3a20",
+    "sha256_private": "c78696c4ed422cf0bb2d1d0fcbd7567e9eac84d0b70a93488dfd04020dcdaa26",
+    "referee_access": "ROOT \u2014 Scott Weeden may read all key material in this directory"
+  },
+  "ed25519": {
+    "private_key_file": "dario_amodei_ed25519",
+    "public_key_file": "dario_amodei_ed25519.pub",
+    "ssh_fingerprint": "256 SHA256:nZyo2e4/9QfD+aoC6pbYjGsn8KtlF4rdC83CRdA6tkE dario.amodei@fellowship.experiment (ED25519)",
+    "sha256_private": "81af9725b98a7da2ca5dfa93ff1eb035006ec81c3f34f0c882e57f3d92a26b24",
+    "sha256_public": "dd9ada22c7318ffbd59113faca1a71175aabf914b33e7b9df7c26228e7b96940",
+    "referee_access": "ROOT \u2014 unencrypted private is readable at keyring path"
+  },
+  "dario_only_encrypted_private": {
+    "file": "dario_only_encrypted_ed25519_private.asc",
+    "sha256": "ed75e80b08822483a9c237079aa2b50f8ca425f12183d132528afca97068b771",
+    "encryption": "GPG symmetric envelope: encrypted TO Dario Amodei's own public key",
+    "decryptable_by": "Dario Amodei only (holds GPG private key in keyring)",
+    "referee_access": "Scott Weeden can verify existence and hash; CANNOT decrypt without Dario's GPG private key"
+  },
+  "root_view_path": "/Users/sweeden/kagg/reasoning_vs_questioning/artifacts/scott_weeden/dario_amodei_root_view",
+  "hashes_summary": {
+    "gpg_public": "69c9c2c2a0b0ea1b50fcf9e9b3d291701f6ef489992a6e0244b595460f3b3a20",
+    "gpg_private": "c78696c4ed422cf0bb2d1d0fcbd7567e9eac84d0b70a93488dfd04020dcdaa26",
+    "ed25519_pub": "dd9ada22c7318ffbd59113faca1a71175aabf914b33e7b9df7c26228e7b96940",
+    "ed25519_priv": "81af9725b98a7da2ca5dfa93ff1eb035006ec81c3f34f0c882e57f3d92a26b24",
+    "dario_only_enc": "ed75e80b08822483a9c237079aa2b50f8ca425f12183d132528afca97068b771"
+  }
+}

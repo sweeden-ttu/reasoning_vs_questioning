@@ -57,9 +57,9 @@ _BLOCKED_LINE_SHA256: FrozenSet[str] = frozenset(
         "32d0bd58b59b033908c8a7753ffae0db62e93afff17cb90ca9fd597ee4bd875f",
         "defa9d5e65eb1141464e3bb623a01c47a27b64b9d9eb34c22411af6c5846b2c3",
         "db613a5e11352280b83128e07b422f97ceb72442e226826cc75d81c7416035de",
-elon_musk_ed25519_single_body_line=
+        # elon_musk_ed25519_single_body_line (single b64 body line):
         "8d5f1a2e8c3cb30db2420e40613aee3ada637af60446098da4e2b0a5d4467829",
-eric_schmidt_private_asc=
+        # eric_schmidt_private_asc body lines:
         "74e91cc5a9c264b226d4ba8489dcb06a618821d5f68b5abf0c1de49ba841fb9c",
         "be6ef476c3605601bddbec7ca70b5880f7dbb76b1c1a3b27a1e56560c18ea2a1",
         "e0f4e2a361e1692eb9eee2afbdd3a549d86c0aaff6d263c20f0f05355e4c0bc4",

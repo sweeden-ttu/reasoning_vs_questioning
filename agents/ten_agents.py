@@ -15,6 +15,10 @@ Slots (locked at 10 — Scott Weeden hard queue cap):
   7 LandExpansion      — quadrant unlock economics
   8 LaborOptimization  — Fibonacci hire costs
   9 SubmissionPackaging — 90 MB / 42 FLOP gate
+
+SLOT_OVERFLOW (outside hard cap — Scott Weeden authorised observers):
+  OVERFLOW  Dario Amodei  — AI safety correspondent; signs statements,
+                            exchanges authenticated messages; NOT in queue.
 """
 
 from __future__ import annotations
@@ -478,6 +482,62 @@ class SubmissionPackagingAgent(BaseSlotAgent):
         return base
 
 
+# ── SLOT_OVERFLOW: Dario Amodei (outside 10-slot cap) ───────────────────────
+
+
+@dataclass
+class DarioAmodeiAgent(BaseSlotAgent):
+    """AI-safety correspondent — SLOT_OVERFLOW (not in the 10-slot hard queue).
+
+    Scott Weeden referee has authorised Dario Amodei as an observer seat.
+    He may sign statements with his GPG key and exchange authenticated messages
+    with any of the 10 core slot agents, but he does NOT occupy slots 0-9.
+
+    Key material:
+      Keyring:   artifacts/dario_amodei/keyring/
+      Root view: artifacts/scott_weeden/dario_amodei_root_view/
+      GPG FP:    C538F9F7047750ED8671BDDF72B589343EA8220C  (primary)
+      Ed25519:   SHA256:nZyo2e4/9QfD+aoC6pbYjGsn8KtlF4rdC83CRdA6tkE
+      Eyes-Only: artifacts/dario_amodei/keyring/dario_only_encrypted_ed25519_private.asc
+                 (encrypted to Dario's GPG public key — only he can decrypt)
+    """
+
+    name: str = "Dario Amodei"
+    slot_index: int = -1   # sentinel: SLOT_OVERFLOW — not a queue position
+    role: str = "ai_safety_correspondent_observer"
+    mode: str = "probabilistic"
+    gpg_primary_fingerprint: str = "C538F9F7047750ED8671BDDF72B589343EA8220C"
+    ed25519_ssh_fingerprint: str = "SHA256:nZyo2e4/9QfD+aoC6pbYjGsn8KtlF4rdC83CRdA6tkE"
+    eyes_only_encrypted: str = (
+        "artifacts/dario_amodei/keyring/dario_only_encrypted_ed25519_private.asc"
+    )
+
+    def advise(self, obs: Dict[str, Any], question: str = "") -> Dict[str, Any]:
+        text = (
+            "SLOT_OVERFLOW: Dario Amodei is an observer/correspondent. "
+            "He may authenticate signed messages via GPG "
+            f"(FP: {self.gpg_primary_fingerprint}) but does not advise "
+            "on farm economics or compete for a queue slot."
+        )
+        return self._record("probable", text, value={"slot": "OVERFLOW"}, question=question)
+
+    def snapshot(self) -> Dict[str, Any]:
+        base = super().snapshot()
+        base.update(
+            {
+                "identity": "dario_amodei",
+                "slot_overflow": True,
+                "in_10_slot_queue": False,
+                "gpg_primary_fingerprint": self.gpg_primary_fingerprint,
+                "ed25519_ssh_fingerprint": self.ed25519_ssh_fingerprint,
+                "eyes_only_key": self.eyes_only_encrypted,
+                "eyes_only_decryptable_by": "Dario Amodei only",
+                "referee_key_review": "artifacts/scott_weeden/dario_amodei_root_view/",
+            }
+        )
+        return base
+
+
 # ── Registry ────────────────────────────────────────────────────────────────
 
 TEN_AGENT_CLASSES: tuple[type, ...] = (
@@ -493,6 +553,9 @@ TEN_AGENT_CLASSES: tuple[type, ...] = (
     SubmissionPackagingAgent,
 )
 
+# SLOT_OVERFLOW registry (authorised by Scott Weeden; outside hard cap)
+OVERFLOW_AGENT_CLASSES: tuple[type, ...] = (DarioAmodeiAgent,)
+
 # Backward-compatible aliases used by older imports / subagents.py
 EricSchmidtSubagent = EricSchmidtAgent
 ElonMuskSubagent = ElonMuskAgent
@@ -504,6 +567,7 @@ LivestockCareSubagent = LivestockCareAgent
 LandExpansionSubagent = LandExpansionAgent
 LaborOptimizationSubagent = LaborOptimizationAgent
 SubmissionPackagingSubagent = SubmissionPackagingAgent
+DarioAmodeiSubagent = DarioAmodeiAgent
 SUBAGENT_CLASSES = TEN_AGENT_CLASSES
 
 
@@ -619,3 +683,12 @@ def assign_labor_optimization() -> LaborOptimizationAgent:
 
 def assign_submission_packaging() -> SubmissionPackagingAgent:
     return SubmissionPackagingAgent()
+
+
+def assign_dario_amodei() -> DarioAmodeiAgent:
+    """Return the SLOT_OVERFLOW Dario Amodei observer agent.
+
+    This agent is NOT placed into the 10-slot TenAgentQueue.
+    It is used for key-authenticated message exchange only.
+    """
+    return DarioAmodeiAgent()
