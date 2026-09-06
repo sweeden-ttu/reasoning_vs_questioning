@@ -27,6 +27,7 @@ from shared_state import (
     ends_with_question,
     infer_posture,
 )
+from .ten_agents import TenAgentQueue, build_all_10_subagents
 
 
 CHARITY_DONATION = 888  # Agent1 opening gift so Agent2 can record charitable nature
@@ -112,6 +113,7 @@ class ReasoningAgent:
         self.identity_lock: Optional[Dict[str, Any]] = None
         self._last_utterance: str = ""
         self._identity_locked: bool = False
+        self.subagents: TenAgentQueue = build_all_10_subagents()
 
     def reset(self) -> None:
         self.bank.reset()
@@ -133,6 +135,7 @@ class ReasoningAgent:
         self.identity_lock = None
         self._last_utterance = ""
         self._identity_locked = False
+        self.subagents = build_all_10_subagents()
 
     def commit_game_identity(self) -> Dict[str, Any]:
         """Lock this process as Agent1 ReasoningAgent for the remainder of the game.
@@ -413,6 +416,9 @@ class ReasoningAgent:
             reply = self.protocol.force_self_query(slot, question)
         else:
             reply = self.protocol.query(slot, question, obs)
+        # Named 10-slot agent advise (Scott Weeden queue) — costs already counted above.
+        if slot < len(self.subagents):
+            self.subagents.advise_slot(slot, obs, question)
         entry = {
             "day": day,
             "hour": hour,
@@ -557,6 +563,7 @@ class ReasoningAgent:
             "identity_lock": self.identity_lock,
             "identity_locked": self._identity_locked,
             "dialogue_posture": self.dialogue_posture(),
+            "ten_slot_agents": self.subagents.snapshot_all(),
             "day_question_log": self.day_question_log,
             "action_audit": self.action_audit,
         }

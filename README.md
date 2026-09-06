@@ -25,15 +25,14 @@ conda run -n kagg python run_suite.py --experiments 1 --n-seeds 1 --max-steps 72
 
 ## Layout
 
-- `agents/` — ReasoningAgent / QuestioningAgent / **ScottWeedenAgent** (file auditor)
-- `shared_state.py` / `subagents.py` — Cursor↔anti-gravity merge + Schmidt/Elon stakes
+- `agents/ten_agents.py` — **10 memory-slot agents** (Schmidt→Packaging), queue-capped at 10
+- `agents/` — ReasoningAgent / QuestioningAgent / ScottWeedenAgent / ten_agents
+- `shared_state.py` / `subagents.py` — Cursor↔anti-gravity merge + re-export of ten agents
 - `memory_protocol.py` — DeterminedFact / ProbableSummary / QuestionEcho
 - `kaggle_path_trust.py` — Aho-Corasick (`pyahocorasick`) + regex trust gate
 - `hard_limits.py` — submission / flop / bank ceilings
 - `run_suite.py` — 10-experiment seat-swap harness
-- `.cursor/rules/` / `.antigravity/rules/` — remainder-of-game posture rules
-- `artifacts/` — metrics, hard limits, Cursor→anti-gravity handoff
-- `artifacts/scott_weeden/` — Agent1 write-claim ledger + verification report
+- `artifacts/scott_weeden/` — write-claim ledger, verification, referee notes
 
 ### Scott Weeden audit
 

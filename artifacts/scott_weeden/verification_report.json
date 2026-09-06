@@ -1,6 +1,6 @@
 {
   "all_ok": true,
-  "audited_at": "2026-09-06T02:55:43.252486+00:00",
+  "audited_at": "2026-09-06T03:06:54.803802+00:00",
   "auditor": "scott_weeden",
   "authors_md": {
     "detail": "AUTHORS.md ON DISK size=772 mtime=2026-09-06T02:31:12.099974+00:00; first_line='# Attribution \u2014 Reasoning vs Questioning'",
@@ -78,12 +78,12 @@
     {
       "detail": "OK",
       "exists": true,
-      "mtime_iso": "2026-09-06T02:17:06.526351+00:00",
+      "mtime_iso": "2026-09-06T03:06:42.690354+00:00",
       "mtime_match": true,
-      "mtime_ns": 1788661026526351195,
+      "mtime_ns": 1788664002690354213,
       "ok": true,
       "path": "subagents.py",
-      "size_bytes": 4835,
+      "size_bytes": 15882,
       "size_match": true
     },
     {
