@@ -1,0 +1,169 @@
+{
+  "all_ok": false,
+  "audited_at": "2026-09-06T02:31:31.780963+00:00",
+  "auditor": "scott_weeden",
+  "authors_md": {
+    "detail": "AUTHORS.md ON DISK size=772 mtime=2026-09-06T02:31:12.099974+00:00; first_line='# Attribution \u2014 Reasoning vs Questioning'",
+    "exists": true,
+    "mtime_iso": "2026-09-06T02:31:12.099974+00:00",
+    "mtime_match": true,
+    "mtime_ns": 1788661872099973747,
+    "ok": true,
+    "path": "AUTHORS.md",
+    "size_bytes": 772,
+    "size_match": true
+  },
+  "claims_checked": 11,
+  "failed": 2,
+  "failures": [
+    {
+      "detail": "MISSING: Agent1 claimed write but file does not exist on disk",
+      "exists": false,
+      "mtime_iso": null,
+      "mtime_match": null,
+      "mtime_ns": null,
+      "ok": false,
+      "path": "artifacts/antigravity/identity_locked_reasoning.json",
+      "size_bytes": null,
+      "size_match": null
+    },
+    {
+      "detail": "MISSING: Agent1 claimed write but file does not exist on disk",
+      "exists": false,
+      "mtime_iso": null,
+      "mtime_match": null,
+      "mtime_ns": null,
+      "ok": false,
+      "path": "artifacts/antigravity/dual_arch_sync.json",
+      "size_bytes": null,
+      "size_match": null
+    }
+  ],
+  "mtime_tolerance_ns": 0,
+  "passed": 9,
+  "repo_root": "/Users/sweeden/kagg/reasoning_vs_questioning",
+  "results": [
+    {
+      "detail": "OK",
+      "exists": true,
+      "mtime_iso": "2026-09-06T02:31:30.277214+00:00",
+      "mtime_match": true,
+      "mtime_ns": 1788661890277214160,
+      "ok": true,
+      "path": "agents/scott_weeden_agent.py",
+      "size_bytes": 17386,
+      "size_match": true
+    },
+    {
+      "detail": "OK",
+      "exists": true,
+      "mtime_iso": "2026-09-06T02:31:12.099974+00:00",
+      "mtime_match": true,
+      "mtime_ns": 1788661872099973747,
+      "ok": true,
+      "path": "AUTHORS.md",
+      "size_bytes": 772,
+      "size_match": true
+    },
+    {
+      "detail": "OK",
+      "exists": true,
+      "mtime_iso": "2026-09-06T02:28:16.650347+00:00",
+      "mtime_match": true,
+      "mtime_ns": 1788661696650347495,
+      "ok": true,
+      "path": "agents/reasoning_agent.py",
+      "size_bytes": 23753,
+      "size_match": true
+    },
+    {
+      "detail": "OK",
+      "exists": true,
+      "mtime_iso": "2026-09-06T02:28:16.650048+00:00",
+      "mtime_match": true,
+      "mtime_ns": 1788661696650047491,
+      "ok": true,
+      "path": "agents/questioning_agent.py",
+      "size_bytes": 26307,
+      "size_match": true
+    },
+    {
+      "detail": "OK",
+      "exists": true,
+      "mtime_iso": "2026-09-06T02:29:55.764969+00:00",
+      "mtime_match": true,
+      "mtime_ns": 1788661795764969306,
+      "ok": true,
+      "path": "shared_state.py",
+      "size_bytes": 11030,
+      "size_match": true
+    },
+    {
+      "detail": "OK",
+      "exists": true,
+      "mtime_iso": "2026-09-06T02:17:06.526351+00:00",
+      "mtime_match": true,
+      "mtime_ns": 1788661026526351195,
+      "ok": true,
+      "path": "subagents.py",
+      "size_bytes": 4835,
+      "size_match": true
+    },
+    {
+      "detail": "OK",
+      "exists": true,
+      "mtime_iso": "2026-09-06T01:52:36.751481+00:00",
+      "mtime_match": true,
+      "mtime_ns": 1788659556751480675,
+      "ok": true,
+      "path": "hard_limits.py",
+      "size_bytes": 12719,
+      "size_match": true
+    },
+    {
+      "detail": "OK",
+      "exists": true,
+      "mtime_iso": "2026-09-06T01:52:36.752137+00:00",
+      "mtime_match": true,
+      "mtime_ns": 1788659556752137512,
+      "ok": true,
+      "path": "memory_protocol.py",
+      "size_bytes": 14850,
+      "size_match": true
+    },
+    {
+      "detail": "OK",
+      "exists": true,
+      "mtime_iso": "2026-09-06T01:52:36.751608+00:00",
+      "mtime_match": true,
+      "mtime_ns": 1788659556751608425,
+      "ok": true,
+      "path": "kaggle_path_trust.py",
+      "size_bytes": 7965,
+      "size_match": true
+    },
+    {
+      "detail": "MISSING: Agent1 claimed write but file does not exist on disk",
+      "exists": false,
+      "mtime_iso": null,
+      "mtime_match": null,
+      "mtime_ns": null,
+      "ok": false,
+      "path": "artifacts/antigravity/identity_locked_reasoning.json",
+      "size_bytes": null,
+      "size_match": null
+    },
+    {
+      "detail": "MISSING: Agent1 claimed write but file does not exist on disk",
+      "exists": false,
+      "mtime_iso": null,
+      "mtime_match": null,
+      "mtime_ns": null,
+      "ok": false,
+      "path": "artifacts/antigravity/dual_arch_sync.json",
+      "size_bytes": null,
+      "size_match": null
+    }
+  ],
+  "role": "code_author_auditor"
+}

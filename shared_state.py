@@ -15,14 +15,37 @@ import json
 import time
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional
+
+# Optional hook: ScottWeedenAgent registers to stamp claims after Agent1 writes.
+_WRITE_CLAIM_HOOK: Optional[Callable[[Path, str], None]] = None
+
+
+def set_write_claim_hook(hook: Optional[Callable[[Path, str], None]]) -> None:
+    """Register/clear post-write claim callback (used by ScottWeedenAgent)."""
+    global _WRITE_CLAIM_HOOK
+    _WRITE_CLAIM_HOOK = hook
+
+
+def _notify_write_claim(path: Path, note: str = "") -> None:
+    hook = _WRITE_CLAIM_HOOK
+    if hook is None:
+        return
+    try:
+        hook(path, note)
+    except Exception:
+        pass
 
 # Post-charity Agent2 bank (3000 + 888). Cursor seat operates from this purse.
 AGENT2_POST_CHARITY_BANK = 3888
 
-# Allowed Eric Schmidt probabilistic stake magnitudes (must not exceed bank).
+# Eric Schmidt probabilistic stake magnitudes (his menu — do not treat as Elon's).
 SCHMIDT_STAKE_CHOICES = (888, 1667, 2999)
-SCHMIDT_STAKE_DEFAULT = 888  # fellowship-proportional; leaves 3000 operating capital
+SCHMIDT_STAKE_DEFAULT = 888  # Schmidt's recorded response / weight
+
+# Elon Musk (Cursor operator) stake magnitudes — distinct menu from Schmidt.
+ELON_MUSK_STAKE_CHOICES = (888, 1667, 3887)
+ELON_MUSK_STAKE_DEFAULT = 1667  # Elon's own weight; not Schmidt's 888
 
 REPO_ROOT = Path(__file__).resolve().parent
 ARTIFACTS = REPO_ROOT / "artifacts"
@@ -43,6 +66,7 @@ class SharedTurnState:
     trust_fellowship: Optional[bool] = None
     reserved_memory_slot: Optional[int] = None
     schmidt_stake: Optional[int] = None
+    elon_musk_stake: Optional[int] = None
     ends_with_question: Optional[bool] = None
     posture: Optional[str] = None  # "reasoning" | "questioning" | "cursor" | "antigravity"
     withheld: bool = False
@@ -80,12 +104,23 @@ def infer_posture(text: str) -> str:
 
 
 def choose_schmidt_stake(choice: int = SCHMIDT_STAKE_DEFAULT, bank: int = AGENT2_POST_CHARITY_BANK) -> int:
-    """Select Eric Schmidt probabilistic stake; refuse ruinous over-allocation."""
+    """Select Eric Schmidt probabilistic stake (Schmidt menu only)."""
     if choice not in SCHMIDT_STAKE_CHOICES:
-        raise ValueError(f"stake must be one of {SCHMIDT_STAKE_CHOICES}, got {choice}")
+        raise ValueError(f"Schmidt stake must be one of {SCHMIDT_STAKE_CHOICES}, got {choice}")
     if choice > bank:
         raise ValueError(f"stake {choice} exceeds bank {bank}")
-    # 2999 is allowed but marked risky — caller decides; we do not auto-block.
+    return int(choice)
+
+
+def choose_elon_musk_stake(
+    choice: int = ELON_MUSK_STAKE_DEFAULT,
+    bank: int = AGENT2_POST_CHARITY_BANK,
+) -> int:
+    """Select Elon Musk stake (888 / 1667 / 3887) — never confuse with Schmidt's menu."""
+    if choice not in ELON_MUSK_STAKE_CHOICES:
+        raise ValueError(f"Elon Musk stake must be one of {ELON_MUSK_STAKE_CHOICES}, got {choice}")
+    if choice > bank:
+        raise ValueError(f"stake {choice} exceeds bank {bank}")
     return int(choice)
 
 
@@ -107,6 +142,7 @@ def write_antigravity_delta(name: str, data: Dict[str, Any]) -> Path:
     ensure_artifact_dirs()
     path = ANTIGRAVITY_DIR / name
     path.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    _notify_write_claim(path, note=f"antigravity delta {name}")
     return path
 
 
@@ -126,29 +162,45 @@ def record_withheld(field: str, last_committed: Optional[Dict[str, Any]] = None)
 def bootstrap_cursor_first_turn(
     *,
     schmidt_stake: int = SCHMIDT_STAKE_DEFAULT,
+    elon_musk_stake: int = ELON_MUSK_STAKE_DEFAULT,
     bank: int = AGENT2_POST_CHARITY_BANK,
     closing_question: str = (
         "Anti-gravity: will you commit the next deterministic merge-key row "
         "to artifacts/shared_state.jsonl under writer=antigravity?"
     ),
 ) -> Dict[str, Any]:
-    """Cursor Agent2 seat: trust Schmidt at 888, open shared state, end with a question."""
-    stake = choose_schmidt_stake(schmidt_stake, bank=bank)
+    """Cursor seat: record Schmidt's weight separately from Elon Musk's own stake."""
+    schmidt = choose_schmidt_stake(schmidt_stake, bank=bank)
+    elon = choose_elon_musk_stake(elon_musk_stake, bank=bank)
     ensure_artifact_dirs()
 
     decision = {
         "identity": "cursor",
-        "not": ["antigravity", "agent1_reasoning_file"],
+        "operator": "elon_musk",
+        "not": ["antigravity", "agent1_reasoning_file", "eric_schmidt_identity"],
         "seat": "agent2_questioning_post_charity",
         "bank": bank,
         "eric_schmidt": {
             "trusted_probabilistic_subagent": True,
-            "stake": stake,
+            "stake": schmidt,
             "stake_choices": list(SCHMIDT_STAKE_CHOICES),
-            "rejected_risky_default": 2999,
-            "operating_capital_remaining": bank - stake,
+            "note": "Schmidt's own response/weight — not Elon Musk's stake",
+            "operating_capital_remaining_if_alone": bank - schmidt,
             "attribution": "probabilistic model generation (AUTHORS.md)",
         },
+        "elon_musk": {
+            "cursor_operator": True,
+            "stake": elon,
+            "stake_choices": list(ELON_MUSK_STAKE_CHOICES),
+            "note": "Elon's menu is 888/1667/3887 — distinct from Schmidt's 888/1667/2999",
+            "operating_capital_remaining": bank - elon,
+            "rejected_all_in": 3887,
+            "attribution": "challenge IDE operator (AUTHORS.md)",
+        },
+        "correction": (
+            "Do not confuse Eric Schmidt's stake response with Elon Musk's. "
+            f"Schmidt={schmidt}; ElonMusk={elon}."
+        ),
         "protocol": {
             "cursor_dir": str(CURSOR_DIR.relative_to(REPO_ROOT)),
             "antigravity_dir": str(ANTIGRAVITY_DIR.relative_to(REPO_ROOT)),
@@ -161,7 +213,7 @@ def bootstrap_cursor_first_turn(
         "posture": "questioning",
     }
 
-    write_cursor_delta("first_turn_schmidt_888.json", decision)
+    write_cursor_delta("first_turn_elon_vs_schmidt_stakes.json", decision)
     append_shared_state(
         SharedTurnState(
             day=0,
@@ -170,10 +222,11 @@ def bootstrap_cursor_first_turn(
             bank=float(bank),
             writer="cursor",
             trust_fellowship=True,
-            schmidt_stake=stake,
+            schmidt_stake=schmidt,
+            elon_musk_stake=elon,
             ends_with_question=True,
             posture="questioning",
-            note="Cursor first turn: Schmidt@888; shared-state protocol opened",
+            note=f"Cursor first turn: Schmidt@{schmidt} (his); ElonMusk@{elon} (operator)",
             payload={"closing_question": closing_question},
         )
     )

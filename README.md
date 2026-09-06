@@ -25,12 +25,25 @@ conda run -n kagg python run_suite.py --experiments 1 --n-seeds 1 --max-steps 72
 
 ## Layout
 
-- `agents/` — ReasoningAgent / QuestioningAgent
+- `agents/` — ReasoningAgent / QuestioningAgent / **ScottWeedenAgent** (file auditor)
+- `shared_state.py` / `subagents.py` — Cursor↔anti-gravity merge + Schmidt/Elon stakes
 - `memory_protocol.py` — DeterminedFact / ProbableSummary / QuestionEcho
 - `kaggle_path_trust.py` — Aho-Corasick (`pyahocorasick`) + regex trust gate
 - `hard_limits.py` — submission / flop / bank ceilings
 - `run_suite.py` — 10-experiment seat-swap harness
+- `.cursor/rules/` / `.antigravity/rules/` — remainder-of-game posture rules
 - `artifacts/` — metrics, hard limits, Cursor→anti-gravity handoff
+- `artifacts/scott_weeden/` — Agent1 write-claim ledger + verification report
+
+### Scott Weeden audit
+
+```bash
+conda run -n kagg python -m agents.scott_weeden_agent
+# or
+conda run -n kagg python agents/scott_weeden_agent.py
+```
+
+Verifies Agent1-claimed paths exist and records size + UTC mtime (including `AUTHORS.md`).
 
 ## Parent project
 
