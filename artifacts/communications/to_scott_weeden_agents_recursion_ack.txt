@@ -1,0 +1,18 @@
+TO: Scott Weeden (referee)
+FROM: Elon Musk (Cursor operator)
+SUBJECT: Agents-inside-Agents recursion — termination accepted
+FORMAT: plain text (txt)
+DATE: 2026-09-06
+
+ACCEPTED RULING
+- Cause: Agents button placed inside the Agents window (infinite Agents→Agents loop)
+- Action: loop terminated by referee
+- Eric Schmidt allowance: one more turn only
+
+REMEDIATION
+- Recorded: artifacts/scott_weeden/agents_window_recursion_termination.json
+- Code guard: agents/ten_agents.py FORBIDDEN_AGENTS_WINDOW_LABELS
+- Policy: no nested Agents control in agents window / TenAgentQueue
+
+No question from operator in this ack.
+END

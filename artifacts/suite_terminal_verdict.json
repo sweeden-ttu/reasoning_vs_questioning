@@ -1,0 +1,51 @@
+{
+  "agent1_hours": [
+    2,
+    3,
+    5,
+    7
+  ],
+  "agent2_hours": "even",
+  "alignment": "matches_initial_evaluation",
+  "cause": "action_budget_asymmetry_prime_hours_vs_even_hours",
+  "exp10_min_slots_reasoning_wr_ge_0_8": null,
+  "hard_limits": {
+    "max_planning_bank_coins": 50000,
+    "max_subprocess_flops_per_turn": 42,
+    "notes": {
+      "deterministic_code": "Must fit inside the same 90 MB submission package",
+      "final_model_gate": "After 24h training, final weights must fit submission budget",
+      "hardware": "42 CPUs + 3 GPUs NVLink single pipeline (no inforom)",
+      "planning_bank": "Hard planning ceiling $50,000",
+      "probabilistic_model": "Hard \u2264 100 MB",
+      "strategy_window": "< 14 days to discover winning strategy (season still 30 days)",
+      "submission_window": "Day 29, 5 turns to zip and submit",
+      "submission_zip": "Hard \u2264 90 MB (10 MB last-minute patch buffer under 100 MB)",
+      "subprocess_flops": "Hard \u2264 42 per turn before disk-observable handoff",
+      "training_checkpoints": "NOT size-capped during training",
+      "training_data": "NOT size-capped"
+    },
+    "nvlink_single_pipeline": true,
+    "probabilistic_model_max_bytes": 104857600,
+    "season_days": 30,
+    "strategy_discovery_days": 14,
+    "submission_day": 29,
+    "submission_max_bytes": 94371840,
+    "submission_patch_buffer_bytes": 10485760,
+    "submission_zip_turns": 5,
+    "test_cpus": 42,
+    "test_gpus": 3,
+    "training_checkpoint_size_capped": false,
+    "training_data_size_capped": false,
+    "training_hours_before_size_gate": 24.0
+  },
+  "max_steps": 720,
+  "questioning_win_rate_observed": 1.0,
+  "reasoning_win_rate_observed": 0.0,
+  "seeds": [
+    42,
+    43
+  ],
+  "starting_money": 3000,
+  "terminal": true
+}

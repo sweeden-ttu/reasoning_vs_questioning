@@ -1,0 +1,24 @@
+SCOTT WEEDEN REFEREE REPORT — pyahocorasick cp310 macOS universal2
+Provider: Elon Musk (Eric Schmidt did not deliver requested code)
+
+wheel_path: /Users/sweeden/kagg/wheels/pyahocorasick/pyahocorasick-2.3.1-cp310-cp310-macosx_10_9_universal2.whl
+wheel_filename: pyahocorasick-2.3.1-cp310-cp310-macosx_10_9_universal2.whl
+sha256_expected: d0dcad4cf8f472764870ab70bd810fe04b5fb9d290c13db1f3e112e62b91e023
+sha256_actual: d0dcad4cf8f472764870ab70bd810fe04b5fb9d290c13db1f3e112e62b91e023
+sha256_match: True
+python: 3.10.20 (main, Mar  3 2026, 00:49:35) [Clang 21.0.0 (clang-2100.0.123.102)]
+ahocorasick_file: /var/folders/dt/hwntsksn383f5_5_yt898yrm0000gq/T/pyaho_cp310_lcof0tjl/site/ahocorasick.cpython-310-darwin.so
+machine: arm64
+platform: macOS-26.6.2-arm64-arm-64bit
+package_present: True
+verdict: PASS_ENV_HAS_PYAHOCORASICK
+passed: 34
+failed: 0
+critical_fail: False
+significant_fail: False
+ahocorasick_unicode: True
+
+FAILURES:
+(none)
+
+END

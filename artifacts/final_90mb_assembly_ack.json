@@ -1,0 +1,8 @@
+{
+  "ack": true,
+  "archive": "/Users/sweeden/kagg/reasoning_vs_questioning/artifacts/submission.tar.gz",
+  "authority": "determined_facts_override_probable_summaries",
+  "mb": 0.062,
+  "passed_90mb": true,
+  "suite_terminal_accepted": true
+}

@@ -12,3 +12,15 @@ artifacts/cursor/
 artifacts/antigravity/
 artifacts/shared_state.jsonl
 artifacts/submission.tar.gz
+
+# Private key material (public/inventory OK)
+eric_schmidt_ed25519
+artifacts/eric_schmidt_ed25519
+artifacts/elon_musk/elon_musk_private.asc
+artifacts/elon_musk/gnupg/
+artifacts/eric_schmidt/private_keys/eric_schmidt_ed25519
+artifacts/eric_schmidt/private_keys/eric_schmidt_private.asc
+artifacts/scott_weeden/keyring/scott_weeden_private.asc
+artifacts/scott_weeden/keyring/gnupg/
+artifacts/eric_schmidt/ocr_crops/
+artifacts/eric_schmidt/antigravity_ocr_private_key.json

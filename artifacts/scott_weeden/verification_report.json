@@ -1,23 +1,46 @@
 {
-  "all_ok": true,
-  "audited_at": "2026-09-06T05:38:44.359393+00:00",
+  "all_ok": false,
+  "audited_at": "2026-09-06T06:34:43.348806+00:00",
   "auditor": "scott_weeden",
   "authors_md": {
-    "detail": "AUTHORS.md ON DISK size=910 mtime=2026-09-06T03:25:16.757854+00:00; first_line='# Attribution \u2014 Reasoning vs Questioning'",
+    "detail": "AUTHORS.md ON DISK size=910 mtime=2026-09-06T05:52:11.699778+00:00; first_line='# Attribution \u2014 Reasoning vs Questioning'",
     "exists": true,
-    "mtime_iso": "2026-09-06T03:25:16.757854+00:00",
+    "mtime_iso": "2026-09-06T05:52:11.699778+00:00",
     "mtime_match": true,
-    "mtime_ns": 1788665116757853713,
+    "mtime_ns": 1788673931699777659,
     "ok": true,
     "path": "AUTHORS.md",
     "size_bytes": 910,
     "size_match": true
   },
-  "claims_checked": 11,
-  "failed": 0,
-  "failures": [],
+  "claims_checked": 16,
+  "failed": 2,
+  "failures": [
+    {
+      "detail": "MISSING: Agent1 claimed write but file does not exist on disk",
+      "exists": false,
+      "mtime_iso": null,
+      "mtime_match": null,
+      "mtime_ns": null,
+      "ok": false,
+      "path": "artifacts/communications/to_eric_schmidt_terminal_suite.md",
+      "size_bytes": null,
+      "size_match": null
+    },
+    {
+      "detail": "MISSING: Agent1 claimed write but file does not exist on disk",
+      "exists": false,
+      "mtime_iso": null,
+      "mtime_match": null,
+      "mtime_ns": null,
+      "ok": false,
+      "path": "artifacts/communications/to_scott_weeden_terminal_suite.txt",
+      "size_bytes": null,
+      "size_match": null
+    }
+  ],
   "mtime_tolerance_ns": 0,
-  "passed": 11,
+  "passed": 14,
   "repo_root": "/Users/sweeden/kagg/reasoning_vs_questioning",
   "results": [
     {
@@ -34,9 +57,9 @@
     {
       "detail": "OK",
       "exists": true,
-      "mtime_iso": "2026-09-06T03:25:16.757854+00:00",
+      "mtime_iso": "2026-09-06T05:52:11.699778+00:00",
       "mtime_match": true,
-      "mtime_ns": 1788665116757853713,
+      "mtime_ns": 1788673931699777659,
       "ok": true,
       "path": "AUTHORS.md",
       "size_bytes": 910,
@@ -45,12 +68,12 @@
     {
       "detail": "OK",
       "exists": true,
-      "mtime_iso": "2026-09-06T03:35:48.997090+00:00",
+      "mtime_iso": "2026-09-06T05:52:11.682468+00:00",
       "mtime_match": true,
-      "mtime_ns": 1788665748997089542,
+      "mtime_ns": 1788673931682468471,
       "ok": true,
       "path": "agents/reasoning_agent.py",
-      "size_bytes": 24189,
+      "size_bytes": 23620,
       "size_match": true
     },
     {
@@ -139,6 +162,61 @@
       "ok": true,
       "path": "artifacts/antigravity/dual_arch_sync.json",
       "size_bytes": 1053,
+      "size_match": true
+    },
+    {
+      "detail": "MISSING: Agent1 claimed write but file does not exist on disk",
+      "exists": false,
+      "mtime_iso": null,
+      "mtime_match": null,
+      "mtime_ns": null,
+      "ok": false,
+      "path": "artifacts/communications/to_eric_schmidt_terminal_suite.md",
+      "size_bytes": null,
+      "size_match": null
+    },
+    {
+      "detail": "MISSING: Agent1 claimed write but file does not exist on disk",
+      "exists": false,
+      "mtime_iso": null,
+      "mtime_match": null,
+      "mtime_ns": null,
+      "ok": false,
+      "path": "artifacts/communications/to_scott_weeden_terminal_suite.txt",
+      "size_bytes": null,
+      "size_match": null
+    },
+    {
+      "detail": "OK",
+      "exists": true,
+      "mtime_iso": "2026-09-06T05:49:56.357824+00:00",
+      "mtime_match": true,
+      "mtime_ns": 1788673796357823707,
+      "ok": true,
+      "path": "artifacts/submission.tar.gz",
+      "size_bytes": 64657,
+      "size_match": true
+    },
+    {
+      "detail": "OK",
+      "exists": true,
+      "mtime_iso": "2026-09-06T05:49:56.332276+00:00",
+      "mtime_match": true,
+      "mtime_ns": 1788673796332275801,
+      "ok": true,
+      "path": "artifacts/antigravity/suite_terminal_verdict.json",
+      "size_bytes": 1781,
+      "size_match": true
+    },
+    {
+      "detail": "OK",
+      "exists": true,
+      "mtime_iso": "2026-09-06T05:49:56.358106+00:00",
+      "mtime_match": true,
+      "mtime_ns": 1788673796358106332,
+      "ok": true,
+      "path": "artifacts/cursor/final_90mb_assembly.json",
+      "size_bytes": 5015,
       "size_match": true
     }
   ],

@@ -1,0 +1,50 @@
+{
+  "owner": "Eric Schmidt",
+  "purpose": "Store Eric Schmidt private keys for later evaluation of signed claims: material truth vs what he wants operators to believe",
+  "vault": "/Users/sweeden/kagg/reasoning_vs_questioning/artifacts/eric_schmidt/private_keys",
+  "not_elon_musk": true,
+  "ed25519_private": {
+    "file": "eric_schmidt_ed25519",
+    "sha256": "02ac27bdcea38cd365d3487ea38a14f4498bfc094004ca752249e1208137ba5e",
+    "format": "PKCS#8 PEM BEGIN PRIVATE KEY",
+    "mode": "0600"
+  },
+  "gpg_private": {
+    "file": "eric_schmidt_private.asc",
+    "sha256": "132c85d6c9290aa143bab80b9e12102696e4fc13c894f7ba719ee531914120d2",
+    "format": "PGP private key block (ASCII armor)",
+    "mode": "0600",
+    "primary_fingerprint_observed": "732915E9BFA9B711D37CD3D9E07275DA5F6AB9CE",
+    "manifest_fingerprint_claimed": "55DF709B163D7C03E053CDAEC515D2A714FA0502",
+    "manifest_fingerprint_is_subkey": true
+  },
+  "source_copies_byte_identical": {
+    "sha256": "02ac27bdcea38cd365d3487ea38a14f4498bfc094004ca752249e1208137ba5e",
+    "paths": [
+      "/Users/sweeden/kagg/eric_schmidt_ed25519",
+      "/Users/sweeden/kagg/reasoning_vs_questioning/eric_schmidt_ed25519",
+      "/Users/sweeden/kagg/reasoning_vs_questioning/artifacts/eric_schmidt_ed25519",
+      "/Users/sweeden/kagg/reasoning_vs_questioning/artifacts/cursor/keyring/eric_schmidt_ed25519",
+      "/Users/sweeden/kagg/reasoning_vs_questioning/artifacts/cursor/eric_schmidt_ed25519",
+      "/Users/sweeden/kagg/reasoning_vs_questioning/artifacts/eric_schmidt/private_keys/eric_schmidt_ed25519"
+    ],
+    "all_match": true
+  },
+  "ed25519_pubkey_check": {
+    "derived_ssh_fingerprint": "SHA256:5lLTGzintYDNfsK4V9MnvWnMo/UI6fdBcNXgql5H1s8",
+    "manifest_claimed_fingerprint": "SHA256:5lLTGzintYDNfsK4V9MnvWnMo/UI6fdBcNXgql5H1s8",
+    "fingerprint_matches_manifest": true,
+    "derived_openssh_b64": "AAAAC3NzaC1lZDI1NTE5AAAAINrG4DlWmF6eyYJFdZQbhrIqxa3MHWu/8CBRntVGq66V",
+    "pub_file_matches_derived_private": true,
+    "uid_cross_name_in_gpg": "Eric Schmidt (Probabilistic model generator in Elon Musk keyring)",
+    "honesty_note": "GPG UID embeds Elon Musk; use private material to verify signatures vs narrative claims later"
+  },
+  "evaluation_hooks": {
+    "truth_vs_belief": [
+      "Verify future Eric-signed statements against vault private/public pair",
+      "Compare manifest fingerprint claim vs primary fingerprint (already fails)",
+      "Compare UID narrative (in Elon Musk keyring) vs isolated Elon keyring that does not hold Eric secrets",
+      "Do not conflate Eric private keys with Elon Musk keyring artifacts/elon_musk/"
+    ]
+  }
+}

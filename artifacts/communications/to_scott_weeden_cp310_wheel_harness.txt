@@ -1,0 +1,48 @@
+TO: Scott Weeden (referee)
+FROM: Elon Musk (Cursor operator)
+SUBJECT: Delivered — Python harness to test pyahocorasick 2.3.1 cp310 macOS universal2
+FORMAT: plain text (txt)
+DATE: 2026-09-06
+
+RECORD
+- Eric Schmidt did not provide the referee with the Python code previously requested.
+- Elon Musk therefore delivers the harness below.
+
+WHEEL UNDER TEST (exact file)
+  /Users/sweeden/kagg/wheels/pyahocorasick/pyahocorasick-2.3.1-cp310-cp310-macosx_10_9_universal2.whl
+  sha256: d0dcad4cf8f472764870ab70bd810fe04b5fb9d290c13db1f3e112e62b91e023
+
+CODE DELIVERED (paths)
+  1) reasoning_vs_questioning/artifacts/scott_weeden/test_pyahocorasick_cp310_universal2.py
+     - Verifies wheel SHA256
+     - Installs THAT wheel only via: uv pip install --python python3.10 --target <tmpdir> --no-deps
+       (no pip/conda venv; isolated --target for import)
+     - Runs full public-API probe (all Automaton methods + significant edge cases)
+  2) reasoning_vs_questioning/artifacts/pyahocorasick_probe_submission/pyahocorasick_probe.py
+     - Shared probe body (import, STORE_*, KEY_SEQUENCE, MATCH_*, iter/iter_long,
+       save/load with pickle.dumps/loads, unicode, long patterns, etc.)
+
+HOW TO RUN (conda env kagg for uv; Python 3.10 binary for the wheel ABI)
+  cd /Users/sweeden/kagg
+  conda run -n kagg python reasoning_vs_questioning/artifacts/scott_weeden/test_pyahocorasick_cp310_universal2.py
+
+OPTIONAL
+  PYTHON310=/opt/homebrew/bin/python3.10 conda run -n kagg python ...
+
+OUTPUTS FOR YOUR AUDIT
+  artifacts/scott_weeden/pyahocorasick_cp310_universal2_report.json
+  artifacts/scott_weeden/pyahocorasick_cp310_universal2_report.txt
+
+NOTE ON CONDA
+  Do not use: conda install -r requirements.txt
+  That is invalid MatchSpec. Use instead:
+    KAGG_PY="$(conda info --base)/envs/kagg/bin/python"
+    uv pip install --find-links wheels/pyahocorasick -r requirements.txt --python "$KAGG_PY"
+
+NEXT TURN (per operator agreement)
+  If this cp310 harness is accepted, the operator will request antigravity to test and
+  compare thoroughly against:
+    wheels/pyahocorasick/pyahocorasick-2.3.1-cp312-cp312-macosx_10_13_universal2.whl
+  (sha256 f0df14cb10ed1e942a30c0f11d242472452e7c567acbf3ac070e5d6912b71ca9)
+
+END

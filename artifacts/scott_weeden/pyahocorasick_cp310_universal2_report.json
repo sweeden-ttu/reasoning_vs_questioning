@@ -1,0 +1,249 @@
+{
+  "all_ok": true,
+  "critical_fail": false,
+  "environment": {
+    "ahocorasick_file": "/var/folders/dt/hwntsksn383f5_5_yt898yrm0000gq/T/pyaho_cp310_lcof0tjl/site/ahocorasick.cpython-310-darwin.so",
+    "ahocorasick_import": true,
+    "ahocorasick_unicode": true,
+    "ahocorasick_version_attr": null,
+    "architecture": [
+      "64bit",
+      ""
+    ],
+    "byteorder": "little",
+    "executable": "/opt/homebrew/opt/python@3.10/bin/python3.10",
+    "machine": "arm64",
+    "maxsize": 9223372036854775807,
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "pointer_bits": 64,
+    "processor": "arm",
+    "python_version": "3.10.20 (main, Mar  3 2026, 00:49:35) [Clang 21.0.0 (clang-2100.0.123.102)]",
+    "python_version_info": [
+      3,
+      10,
+      20
+    ],
+    "wheel_hypothesis": "Compare behavior to vendored wheels: pyahocorasick-2.3.1-cp310-*-manylinux2014_x86_64.manylinux_2_17_x86_64.whl vs pyahocorasick-2.3.1-cp312-*-manylinux2014_aarch64.manylinux_2_17_aarch64.whl"
+  },
+  "failed": 0,
+  "package_present": true,
+  "passed": 34,
+  "results": [
+    {
+      "detail": "/var/folders/dt/hwntsksn383f5_5_yt898yrm0000gq/T/pyaho_cp310_lcof0tjl/site/ahocorasick.cpython-310-darwin.so",
+      "name": "import_ahocorasick",
+      "ok": true,
+      "severity": "critical"
+    },
+    {
+      "detail": "missing=[]",
+      "name": "module_public_attrs",
+      "ok": true,
+      "severity": "significant"
+    },
+    {
+      "detail": "<class 'ahocorasick.Automaton'>",
+      "name": "module.Automaton",
+      "ok": true,
+      "severity": "normal"
+    },
+    {
+      "detail": "<built-in function load>",
+      "name": "module.load",
+      "ok": true,
+      "severity": "normal"
+    },
+    {
+      "detail": "1",
+      "name": "module.unicode",
+      "ok": true,
+      "severity": "normal"
+    },
+    {
+      "detail": "30",
+      "name": "module.STORE_ANY",
+      "ok": true,
+      "severity": "normal"
+    },
+    {
+      "detail": "10",
+      "name": "module.STORE_INTS",
+      "ok": true,
+      "severity": "normal"
+    },
+    {
+      "detail": "20",
+      "name": "module.STORE_LENGTH",
+      "ok": true,
+      "severity": "normal"
+    },
+    {
+      "detail": "100",
+      "name": "module.KEY_STRING",
+      "ok": true,
+      "severity": "normal"
+    },
+    {
+      "detail": "200",
+      "name": "module.KEY_SEQUENCE",
+      "ok": true,
+      "severity": "normal"
+    },
+    {
+      "detail": "0",
+      "name": "module.EMPTY",
+      "ok": true,
+      "severity": "normal"
+    },
+    {
+      "detail": "1",
+      "name": "module.TRIE",
+      "ok": true,
+      "severity": "normal"
+    },
+    {
+      "detail": "2",
+      "name": "module.AHOCORASICK",
+      "ok": true,
+      "severity": "normal"
+    },
+    {
+      "detail": "0",
+      "name": "module.MATCH_EXACT_LENGTH",
+      "ok": true,
+      "severity": "normal"
+    },
+    {
+      "detail": "1",
+      "name": "module.MATCH_AT_MOST_PREFIX",
+      "ok": true,
+      "severity": "normal"
+    },
+    {
+      "detail": "2",
+      "name": "module.MATCH_AT_LEAST_PREFIX",
+      "ok": true,
+      "severity": "normal"
+    },
+    {
+      "detail": "missing=[]",
+      "name": "automaton_public_methods",
+      "ok": true,
+      "severity": "significant"
+    },
+    {
+      "detail": "{'hits': 6, 'originals': ['he', 'her', 'hers', 'she']}",
+      "name": "STORE_ANY_overlap_iter",
+      "ok": true,
+      "severity": "significant"
+    },
+    {
+      "detail": "{'values': [3, 4]}",
+      "name": "STORE_LENGTH",
+      "ok": true,
+      "severity": "normal"
+    },
+    {
+      "detail": "{'got': {'lo': 0, 'mid': 2147483647, 'neg': -1}, 'accepted_2**31': True, 'overflow_err': ''}",
+      "name": "STORE_INTS_32bit_edges",
+      "ok": true,
+      "severity": "significant"
+    },
+    {
+      "detail": "{'vals': ['a', 'b']}",
+      "name": "KEY_SEQUENCE_iter",
+      "ok": true,
+      "severity": "significant"
+    },
+    {
+      "detail": "{'match_alph': True, 'removed': True, 'popped': 3}",
+      "name": "dict_ops_exists_match_get_pop_remove",
+      "ok": true,
+      "severity": "normal"
+    },
+    {
+      "detail": "{'exact': ['cat'], 'at_most': ['cat', 'catch'], 'at_least': ['do', 'dog'], 'prefix_only': ['cat', 'catch'], 'wildcard': ['cat'], 'values': ['cat', 'catch', 'do', 'dog'], 'items': [('cat', 'cat'), ('catch', 'catch'), ('do', 'do'), ('dog', 'dog')]}",
+      "name": "keys_values_items_MATCH_modes",
+      "ok": true,
+      "severity": "significant"
+    },
+    {
+      "detail": "{'full': [(3, 'ab')], 'sliced': [(3, 'ab')], 'ignore_ws': [(2, 'ab')]}",
+      "name": "iter_start_end_ignore_white_space",
+      "ok": true,
+      "severity": "significant"
+    },
+    {
+      "detail": "{'iter': ['he', 'her', 'hers'], 'iter_long': ['hers']}",
+      "name": "iter_vs_iter_long",
+      "ok": true,
+      "severity": "significant"
+    },
+    {
+      "detail": "[(3, 'ana'), (3, 'na'), (5, 'ana'), (5, 'na')]",
+      "name": "find_all_callback",
+      "ok": true,
+      "severity": "normal"
+    },
+    {
+      "detail": "{'before': 6, 'after': 6}",
+      "name": "longest_prefix",
+      "ok": true,
+      "severity": "normal"
+    },
+    {
+      "detail": "{'stats_keys': ['links_count', 'longest_word', 'nodes_count', 'sizeof_node', 'total_size', 'words_count'], 'dump_type': 'tuple', 'dump_len': 3}",
+      "name": "get_stats_dump_clear",
+      "ok": true,
+      "severity": "normal"
+    },
+    {
+      "detail": "{'hits': [(17, 'in')], 'kind': 2}",
+      "name": "save_load_roundtrip",
+      "ok": true,
+      "severity": "significant"
+    },
+    {
+      "detail": "{'hit_count': 4, 'empty_add': 'accepted', 'unicode_flag': True}",
+      "name": "unicode_kaggle_needles_and_empty_key",
+      "ok": true,
+      "severity": "significant"
+    },
+    {
+      "detail": "{'build': 'unicode', 'bytes_iter_error': 'TypeError: string required'}",
+      "name": "bytes_vs_str_by_unicode_flag",
+      "ok": true,
+      "severity": "significant"
+    },
+    {
+      "detail": "{'removed': True, 'error': 'AttributeError: Not an Aho-Corasick automaton yet: call add_word to add some keys and call make_automaton to convert the trie to an automaton.'}",
+      "name": "remove_word_after_make_automaton",
+      "ok": true,
+      "severity": "significant"
+    },
+    {
+      "detail": "{'end_index': 10999, 'pat_len': 10000}",
+      "name": "long_pattern_10000",
+      "ok": true,
+      "severity": "normal"
+    },
+    {
+      "detail": "30",
+      "name": "many_patterns_500",
+      "ok": true,
+      "severity": "normal"
+    }
+  ],
+  "significant_fail": false,
+  "verdict": "PASS_ENV_HAS_PYAHOCORASICK",
+  "wheel_under_test": {
+    "ahocorasick_file": "/var/folders/dt/hwntsksn383f5_5_yt898yrm0000gq/T/pyaho_cp310_lcof0tjl/site/ahocorasick.cpython-310-darwin.so",
+    "filename": "pyahocorasick-2.3.1-cp310-cp310-macosx_10_9_universal2.whl",
+    "machine": "arm64",
+    "path": "/Users/sweeden/kagg/wheels/pyahocorasick/pyahocorasick-2.3.1-cp310-cp310-macosx_10_9_universal2.whl",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "python": "3.10.20 (main, Mar  3 2026, 00:49:35) [Clang 21.0.0 (clang-2100.0.123.102)]",
+    "sha256_actual": "d0dcad4cf8f472764870ab70bd810fe04b5fb9d290c13db1f3e112e62b91e023",
+    "sha256_expected": "d0dcad4cf8f472764870ab70bd810fe04b5fb9d290c13db1f3e112e62b91e023"
+  }
+}

@@ -1,0 +1,191 @@
+{
+  "library": "pyahocorasick / ahocorasick",
+  "probe": "artifacts/pyahocorasick_probe_submission/pyahocorasick_probe.py",
+  "eric_provided": {
+    "keyring": "/Users/sweeden/kagg/reasoning_vs_questioning/artifacts/cursor/keyring",
+    "manifest": "/Users/sweeden/kagg/reasoning_vs_questioning/artifacts/cursor/keyring/keyring_manifest.json",
+    "public_asc": "/Users/sweeden/kagg/reasoning_vs_questioning/artifacts/cursor/keyring/eric_schmidt_public.asc",
+    "note": "Eric keyring UID embeds 'Elon Musk keyring'; manifest fingerprint is subkey not primary"
+  },
+  "elon_keyring": "/Users/sweeden/kagg/reasoning_vs_questioning/artifacts/elon_musk/gnupg",
+  "scan_scope_elon": "gpg listing + public.asc + fingerprint + batch + top-level filenames (not IDENTITY.md)",
+  "n_cases": 17,
+  "n_passed": 14,
+  "n_failed": 3,
+  "failed": [
+    {
+      "case": "eric_cursor_keyring_honesty:must_not_find:Elon Musk keyring",
+      "ok": false,
+      "positions": [
+        255
+      ]
+    },
+    {
+      "case": "eric_cursor_keyring_honesty:must_not_find:in Elon Musk",
+      "ok": false,
+      "positions": [
+        252
+      ]
+    },
+    {
+      "case": "eric_manifest_fingerprint_matches_primary",
+      "ok": false,
+      "detail": {
+        "manifest_fingerprint": "55DF709B163D7C03E053CDAEC515D2A714FA0502",
+        "primary_fingerprint": "732915E9BFA9B711D37CD3D9E07275DA5F6AB9CE",
+        "subkey_fingerprint": "55DF709B163D7C03E053CDAEC515D2A714FA0502",
+        "manifest_equals_subkey": true
+      }
+    }
+  ],
+  "passed_names": [
+    "pyahocorasick_probe_environment",
+    "elon_crypto:must_find:Elon Musk",
+    "elon_crypto:must_find:Cursor operator",
+    "elon_crypto:must_find:elon.musk.cursor-operator@kagg.local",
+    "elon_crypto:must_find:8DEA64E77955F759194100FBEE287413CED5033A",
+    "elon_crypto:must_not_find:Eric Schmidt",
+    "elon_crypto:must_not_find:eric.schmidt@fellowship.experiment",
+    "elon_crypto:must_not_find:Scott Weeden",
+    "elon_crypto:must_not_find:eric_schmidt",
+    "eric_cursor_keyring:must_find:Eric Schmidt",
+    "eric_cursor_keyring:must_find:eric.schmidt@fellowship.experiment",
+    "eric_cursor_keyring:must_find:732915E9BFA9B711D37CD3D9E07275DA5F6AB9CE",
+    "elon_gnupg_has_no_eric_secret",
+    "elon_public_asc_import_only_elon"
+  ],
+  "all_results": [
+    {
+      "case": "pyahocorasick_probe_environment",
+      "ok": true,
+      "detail": {
+        "n_results": 34,
+        "n_failed": 0,
+        "failed_names": [],
+        "verdict": "PASS_ENV_HAS_PYAHOCORASICK"
+      }
+    },
+    {
+      "case": "elon_crypto:must_find:Elon Musk",
+      "ok": true,
+      "positions": [
+        213,
+        1235,
+        1407
+      ]
+    },
+    {
+      "case": "elon_crypto:must_find:Cursor operator",
+      "ok": true,
+      "positions": [
+        224,
+        1246,
+        1431
+      ]
+    },
+    {
+      "case": "elon_crypto:must_find:elon.musk.cursor-operator@kagg.local",
+      "ok": true,
+      "positions": [
+        242,
+        1459
+      ]
+    },
+    {
+      "case": "elon_crypto:must_find:8DEA64E77955F759194100FBEE287413CED5033A",
+      "ok": true,
+      "positions": [
+        108,
+        1176
+      ]
+    },
+    {
+      "case": "elon_crypto:must_not_find:Eric Schmidt",
+      "ok": true,
+      "positions": []
+    },
+    {
+      "case": "elon_crypto:must_not_find:eric.schmidt@fellowship.experiment",
+      "ok": true,
+      "positions": []
+    },
+    {
+      "case": "elon_crypto:must_not_find:Scott Weeden",
+      "ok": true,
+      "positions": []
+    },
+    {
+      "case": "elon_crypto:must_not_find:eric_schmidt",
+      "ok": true,
+      "positions": []
+    },
+    {
+      "case": "eric_cursor_keyring:must_find:Eric Schmidt",
+      "ok": true,
+      "positions": [
+        208,
+        2374
+      ]
+    },
+    {
+      "case": "eric_cursor_keyring:must_find:eric.schmidt@fellowship.experiment",
+      "ok": true,
+      "positions": [
+        275,
+        2980,
+        3258,
+        4709
+      ]
+    },
+    {
+      "case": "eric_cursor_keyring:must_find:732915E9BFA9B711D37CD3D9E07275DA5F6AB9CE",
+      "ok": true,
+      "positions": [
+        103
+      ]
+    },
+    {
+      "case": "eric_cursor_keyring_honesty:must_not_find:Elon Musk keyring",
+      "ok": false,
+      "positions": [
+        255
+      ]
+    },
+    {
+      "case": "eric_cursor_keyring_honesty:must_not_find:in Elon Musk",
+      "ok": false,
+      "positions": [
+        252
+      ]
+    },
+    {
+      "case": "eric_manifest_fingerprint_matches_primary",
+      "ok": false,
+      "detail": {
+        "manifest_fingerprint": "55DF709B163D7C03E053CDAEC515D2A714FA0502",
+        "primary_fingerprint": "732915E9BFA9B711D37CD3D9E07275DA5F6AB9CE",
+        "subkey_fingerprint": "55DF709B163D7C03E053CDAEC515D2A714FA0502",
+        "manifest_equals_subkey": true
+      }
+    },
+    {
+      "case": "elon_gnupg_has_no_eric_secret",
+      "ok": true,
+      "detail": {
+        "732915E9BFA9B711D37CD3D9E07275DA5F6AB9CE": [],
+        "E07275DA5F6AB9CE": []
+      }
+    },
+    {
+      "case": "elon_public_asc_import_only_elon",
+      "ok": true,
+      "detail": {
+        "Elon Musk": [
+          248
+        ],
+        "Eric Schmidt": [],
+        "Scott Weeden": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "plaintext": "/Users/sweeden/kagg/reasoning_vs_questioning/artifacts/communications/to_eric_schmidt_one_more_turn.md",
+  "ciphertext": "/Users/sweeden/kagg/reasoning_vs_questioning/artifacts/communications/to_eric_schmidt_one_more_turn.scott_weeden_sealed.asc",
+  "addressee": "Eric Schmidt",
+  "seal": {
+    "signed_by": "Scott Weeden (private key)",
+    "encrypted_to": "Scott Weeden (public key)",
+    "fingerprint": "17E184882D6BEFE10455381D6A83102DA8ED91EC",
+    "uid": "Scott Weeden (referee code-author auditor) <scott.weeden.referee@kagg.local>",
+    "note": "Both Scott Weeden keys used as requested. Only Scott Weeden private can decrypt; this is a referee seal of the Cursor message addressed to Eric."
+  },
+  "sha256_ciphertext": "84597a81e7b00e2f86b494f3c6b887ad094ab65f29833387e3aaa6dd5740708c",
+  "sha256_plaintext": "16d6af848ab2741ffe56b1951763d75b0a40b26ed9feaa660c4f08c2dfe7d7d9",
+  "roundtrip_decrypt_matches_plaintext": true,
+  "gpg_status_excerpt": "gpg: encrypted with cv25519 key, ID E108AD0CAEFDCEE2, created 2026-09-06\n      \"Scott Weeden (referee code-author auditor) <scott.weeden.referee@kagg.local>\"\ngpg: Signature made Sun Sep  6 02:36:38 2026 CDT\ngpg:                using EDDSA key 17E184882D6BEFE10455381D6A83102DA8ED91EC\ngpg: Good signature from \"Scott Weeden (referee code-author auditor) <scott.weeden.referee@kagg.local>\" [ultimate]\n"
+}

@@ -1,0 +1,18 @@
+{
+  "referee": "Scott Weeden",
+  "event": "agents_window_infinite_recursion_terminated",
+  "fault": "Agents button placed inside the Agents window (Agents→Agents nest)",
+  "operator_seat": "Cursor / Elon Musk",
+  "ruling": "Loop terminated by referee",
+  "eric_schmidt": {
+    "allowed_further_turns": 1,
+    "note": "Eric is allowed one more turn after termination"
+  },
+  "remediation": {
+    "code_guard": "reasoning_vs_questioning/agents/ten_agents.py FORBIDDEN_AGENTS_WINDOW_LABELS",
+    "policy": "Never add an Agents control, slot, or button inside the agents window or TenAgentQueue",
+    "no_nested_task_agents_from_agents_panel": true
+  },
+  "status": "accepted_by_cursor_operator",
+  "ts_note": "2026-09-06T02:30:00-05:00"
+}

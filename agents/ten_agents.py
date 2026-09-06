@@ -45,6 +45,20 @@ from shared_state import (
 MAX_SUBAGENT_QUEUE = 10
 MB = 1024 * 1024
 
+# Referee (Scott Weeden): never place an "Agents" control/slot inside the agents
+# window/queue — that nests Agents→Agents and caused an infinite loop that was
+# terminated. Eric Schmidt is allowed one more turn after that termination.
+FORBIDDEN_AGENTS_WINDOW_LABELS = frozenset(
+    {
+        "Agents",
+        "agents",
+        "AGENTS",
+        "AgentsWindow",
+        "agents_window",
+        "Open Agents",
+    }
+)
+
 
 @runtime_checkable
 class SlotAgent(Protocol):
@@ -517,6 +531,15 @@ class TenAgentQueue:
         ]
         if len(self.slots) != MAX_SUBAGENT_QUEUE:
             raise RuntimeError(f"queue must be exactly {MAX_SUBAGENT_QUEUE}")
+        # Hard stop: no nested Agents→Agents button/slot (referee-terminated loop).
+        for slot in self.slots:
+            if slot.name in FORBIDDEN_AGENTS_WINDOW_LABELS:
+                raise RuntimeError(
+                    "FORBIDDEN: Agents control inside agents window "
+                    f"(slot={slot.slot_index!r} name={slot.name!r}); "
+                    "infinite recursion was terminated by Scott Weeden; "
+                    "Eric Schmidt is allowed one more turn only"
+                )
 
     def __len__(self) -> int:
         return len(self.slots)

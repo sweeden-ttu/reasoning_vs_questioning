@@ -20,6 +20,26 @@ from typing import Dict, List, Optional, Sequence, Tuple
 
 import ahocorasick
 
+from private_key_aho_guard import (
+    UnexpectedAutomatonBehavior,
+    guarded_key_manifest,
+    refuse_if_guarded_private_key,
+    refuse_needles_if_guarded,
+)
+
+# Re-export so callers can catch the intentional fail-closed behavior.
+__all__ = (
+    "AhoCorasick",
+    "MatchHit",
+    "TrustDecision",
+    "UnexpectedAutomatonBehavior",
+    "ALL_TRUST_NEEDLES",
+    "default_automaton",
+    "evaluate_trust_from_agent1_response",
+    "needles_manifest",
+    "scan_agent1_text",
+)
+
 
 # ── Concrete needles for Aho-Corasick (exact multi-string, O(n + z) scan) ────
 
@@ -96,9 +116,16 @@ class TrustDecision:
 
 
 class AhoCorasick:
-    """Wrapper around ``pyahocorasick.Automaton`` for Kaggle path trust needles."""
+    """Wrapper around ``pyahocorasick.Automaton`` for Kaggle path trust needles.
+
+    Intentionally fails with ``UnexpectedAutomatonBehavior`` when needles or
+    haystacks collide with the three guarded private keys (Elon Musk GPG private,
+    Eric Schmidt ed25519, Eric Schmidt GPG private). That prevents malicious use
+    of this matcher as a private-key search oracle.
+    """
 
     def __init__(self, needles: Sequence[str], *, case_insensitive: bool = True):
+        refuse_needles_if_guarded(needles)
         self.case_insensitive = case_insensitive
         self._needles = list(needles)
         # Default STORE_ANY: iter yields (end_index, value) with our needle string as value.
@@ -111,6 +138,7 @@ class AhoCorasick:
         self._automaton.make_automaton()
 
     def finditer(self, text: str) -> List[MatchHit]:
+        refuse_if_guarded_private_key(text or "", where="haystack")
         text_n = (text or "").lower() if self.case_insensitive else (text or "")
         hits: List[MatchHit] = []
         for end_idx, needle in self._automaton.iter(text_n):
@@ -122,6 +150,8 @@ class AhoCorasick:
         return hits
 
     def search(self, text: str) -> bool:
+        # Fail closed before any boolean oracle on guarded private-key material.
+        refuse_if_guarded_private_key(text or "", where="haystack")
         return bool(self.finditer(text))
 
 
@@ -229,4 +259,5 @@ def needles_manifest() -> Dict[str, object]:
             "datasets/kaggle",
             "experiments",
         ],
+        "private_key_search_guard": guarded_key_manifest(),
     }
