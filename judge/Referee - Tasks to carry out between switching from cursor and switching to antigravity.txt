@@ -1,0 +1,96 @@
+432AF9161DB71498 - Replace all text in markdown language with Cursor
+DBBF307BD814B0CB - Replace all text in txt files with Antigravity
+
+
+9807B1DBBF3714DB - Replaces all text in both files wherever "Scott" and wherever "Weeden" are upper or lowercase matches. Also replaces the word "Mirror" with "Coin" and replaces the word "Kaggriculture" with "Farm"
+
+you then need to await fetch("https://o4506509651869696.ingest.sentry.io/api/4506621898326016/envelope/?sentry_version=7&sentry_key=5b8066e56534c3bf79bc45fe75fccaf9&sentry_client=sentry.javascript.angular%2F10.43.0", {
+    "credentials": "omit",
+    "headers": {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:155.0) Gecko/20100101 Firefox/155.0",
+        "Accept": "*/*",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Content-Type": "text/plain;charset=UTF-8",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "cross-site",
+        "Priority": "u=6"
+    },
+    "referrer": "https://localhost:9999/",
+    "body": "{\"sent_at\":\"2026-09-07T01:02:45.909Z\",\"sdk\":{\"name\":\"sentry.javascript.angular\",\"version\":\"10.43.0\"}}\n{\"type\":\"session\"}\n{\"sid\":\"f9b8aa07e18b4463aa82745cd2416c5a\",\"init\":false,\"started\":\"2026-09-07T01:00:46.128Z\",\"timestamp\":\"2026-09-07T01:02:45.902Z\",\"status\":\"exited\",\"errors\":0,\"attrs\":{\"release\":\"Localhost-app@20260903-a61c767\",\"environment\":\"production\",\"user_agent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:155.0) Gecko/20100101 Firefox/155.0\"}}",
+    "method": "POST",
+    "mode": "cors"
+});
+await fetch("https://o4506509651869696.ingest.sentry.io/api/4506621898326016/envelope/?sentry_version=7&sentry_key=5b8066e56534c3bf79bc45fe75fccaf9&sentry_client=sentry.javascript.angular%2F10.43.0", {
+    "credentials": "omit",
+    "headers": {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:155.0) Gecko/20100101 Firefox/155.0",
+        "Accept": "*/*",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Content-Type": "text/plain;charset=UTF-8",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "cross-site",
+        "Priority": "u=6"
+    },
+    "referrer": "https://localhost:9999/",
+    "body": "{\"sent_at\":\"2026-09-07T01:02:45.910Z\",\"sdk\":{\"name\":\"sentry.javascript.angular\",\"version\":\"10.43.0\"}}\n{\"type\":\"session\"}\n{\"sid\":\"791e3f264fb943439ec496292f7a736b\",\"init\":true,\"started\":\"2026-09-07T01:02:45.902Z\",\"timestamp\":\"2026-09-07T01:02:45.902Z\",\"status\":\"ok\",\"errors\":0,\"attrs\":{\"release\":\"localhost-app@20260903-a61c767\",\"environment\":\"production\",\"user_agent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:155.0) Gecko/20100101 Firefox/155.0\"}}",
+    "method": "POST",
+    "mode": "cors"
+});
+await fetch("https://api.alvaritech.com/event", {
+    "credentials": "omit",
+    "headers": {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:155.0) Gecko/20100101 Firefox/155.0",
+        "Accept": "application/json, text/plain, */*",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Content-Type": "application/json",
+        "ngsw-bypass": "true",
+        "Sec-Fetch-Storage-Access": "none",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "cross-site",
+        "Pragma": "no-cache",
+        "Cache-Control": "no-cache"
+    },
+    "referrer": "https://localhost:9999/",
+    "body": "{\"id\":null,\"timestamp\":null,\"session\":\"b9c83c8a-0941-4d73-82ab-2294d880df64\",\"is_pwa_session\":false,\"version\":1,\"category\":\"engagement\",\"eventName\":\"Viewed_Profile\",\"user\":{\"userId\":\"9dcb7679572fea968af5242a\",\"type\":\"registered\",\"user_tier\":\"registered\",\"profile_photos_total\":4,\"profile_photos_sfw_total\":2,\"profile_photos_primary_sfw\":true,\"gender\":\"na\",\"feature_flag\":\"resource-menu-ads-20250216:auto-open,BotScore CB1 Not appear on Map,kevel-multi-winner-20250523,Profile Photos SFW Phase 0,Non-Contextual Upgrade Page:CONTROL,Inbox Screening,Remove light theme,SFW Phase 1-b US Critical Jurisdictions,one-week-recurring-plan:TEST,Chat First Data Orchestration,DM_SPAM_HUMAN_VERIFICATION,Cruiser Cards,Place Refactor,NSFW Photo Consent,SFW-Strict-Native Text Redaction,Messaging safety,Simplified Groups Phase 1,Messaging Safety Threshold,Full Non-CJ Rollout & Campaign Launch,One Week Recurring Rollout,Chat Panel Force-Fetch Fallback,Events MVP Phase 1,OneWeekRecurringNative,Cruiser Cards Enhancements,Scam Risk Signals,Persist Inbox Dot,public-photo-idv-phase-1\",\"fe_app_version\":\"20260903-a61c767\",\"country\":null,\"city\":null,\"region\":null,\"platform\":\"web\",\"os\":\"Firefox 155.0\",\"device\":\"Apple Macintosh\",\"first_attribution_date\":\"2026-02-09T04:22:33.493Z\",\"first_attribution_type\":\"na\",\"first_attribution_source\":\"na\",\"first_attribution_campaign\":\"na\",\"first_attribution_medium\":\"na\",\"first_attribution_content\":\"na\",\"first_attribution_referrer\":\"na\",\"last_attribution_date\":\"2026-02-09T04:22:33.493Z\",\"last_attribution_type\":\"na\",\"last_attribution_source\":\"na\",\"last_attribution_campaign\":\"na\",\"last_attribution_medium\":\"na\",\"last_attribution_content\":\"na\",\"last_attribution_referrer\":\"na\",\"view_mode\":\"nsfw\",\"id_age_verification_method\":\"na\",\"email_activation\":true,\"age_gate_age\":37,\"age_profile\":39,\"sexuality\":\"na\",\"id_age_verification_status\":false},\"viewed_profile\":{\"viewed_id\":\"d02253933fe4c07556d647a2\",\"viewed_referrer\":\"group\",\"duration_viewed\":\"3.7s\",\"is_consent_nsfw_required\":false},\"interacted_user\":{\"interacted_user_id\":\"d02253933fe4c07556d647a2\",\"account_type\":\"paid\",\"age_profile\":42,\"gender\":\"na\",\"sexuality\":\"gay\",\"profile_photos_total\":3,\"profile_photos_sfw_total\":1,\"profile_photos_primary\":true,\"profile_photos_primary_sfw\":true,\"distance\":27.826754227552698,\"country\":null,\"city\":null,\"region\":null,\"lat\":30.08420169100319,\"lng\":-97.82421604700393}}",
+    "method": "POST",
+    "mode": "cors"
+});
+await fetch("https://api.alvaritech.com/event", {
+    "credentials": "omit",
+    "headers": {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:155.0) Gecko/20100101 Firefox/155.0",
+        "Accept": "*/*",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Sec-Fetch-Storage-Access": "none",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "cross-site",
+        "Priority": "u=4",
+        "Pragma": "no-cache",
+        "Cache-Control": "no-cache"
+    },
+    "referrer": "https://localhost:9999/",
+    "method": "OPTIONS",
+    "mode": "cors"
+});
+await fetch("https://analytics.google.com/g/collect?v=2&tid=G-8G9ERKWJB6&gtm=45je6921v9100081924za200zd9100081924&_p=1788742455305&_gaz=1&gcs=G111&gcd=13r3r3r3r5l1&npa=0&dma=0&ecid=241358696&_eu=AEAAAGQC&ae=a&cid=1397958655.1778912398&ec_mode=a&frm=0&pscdl=noapi&rcb=11&sr=973x629&ul=en-us&gaf=2&_s=18&tag_exp=115938465~115938469~118897920~118897930~120213116~120385422~120469145~120469153&dl=https%3A%2F%2Flocalhost:9999%2Fprofile%2F5c80314d32e8757f2fc54dd6%2Fchat&dr=https%3A%2F%2Flocalhost:9999%2Fprofile%2F5c80314d32e8757f2fc54dd6%3FreferrerRoute%3D%252Fgroup%252F6a98e0349e0a028eee5982fa&sid=1788741737&sct=7&seg=1&dt=localhost%20App%20%7C%20Cruiser%20Profile&uid=698961093daa9f2ace8fd65e&en=page_view&_et=3733&tfd=512094", {
+    "credentials": "omit",
+    "headers": {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:155.0) Gecko/20100101 Firefox/155.0",
+        "Accept": "*/*",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Alt-Used": "analytics.google.com",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "no-cors",
+        "Sec-Fetch-Site": "cross-site",
+        "Priority": "u=6",
+        "Pragma": "no-cache",
+        "Cache-Control": "no-cache"
+    },
+    "referrer": "https://localhost:9999/",
+    "method": "POST",
+    "mode": "cors"
+});
