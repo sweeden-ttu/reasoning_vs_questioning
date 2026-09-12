@@ -282,10 +282,20 @@ class QKDStatisticalQuestionBank:
         questions: Optional[Sequence[QKDStatisticalQuestion]] = None,
         embedding_dim: int = DEFAULT_EMBEDDING_DIM,
     ) -> None:
-        from agents.rag_observer_reasoning_agent import build_2d_kmap_mask
+        try:
+            from kmap_2d_mask import build_2d_kmap_mask
+        except ImportError:
+            try:
+                from agents.rag_observer_reasoning_agent import build_2d_kmap_mask
+            except ImportError:
+                build_2d_kmap_mask = None  # type: ignore
 
         self.encoder = StateVectorEncoder(dim=embedding_dim, half_dim=128)
-        self.kmap_2d_mask = build_2d_kmap_mask(128, 128)
+        if build_2d_kmap_mask is not None:
+            self.kmap_2d_mask = build_2d_kmap_mask(128, 128)
+        else:
+            import numpy as _np
+            self.kmap_2d_mask = _np.ones((128, 128), dtype=_np.float32)
         self.questions: List[QKDStatisticalQuestion] = (
             list(questions) if questions is not None else list(CANONICAL_QKD_QUESTIONS)
         )
