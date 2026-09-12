@@ -101,8 +101,8 @@ def test_phase_1_player_0_imitation():
 
     obs_step_5 = _make_mock_observation(day=1, hour=5)
     action_5 = opp.act(obs_step_5)
-    # step_idx = 1 * 24 + 5 = 29 -> 29 % 10 = 9
-    assert action_5["farmer"] == ["MOVE_N", 9]
+    # step_idx = (1 - 1) * 24 + 5 = 5 -> 5 % 10 = 5
+    assert action_5["farmer"] == ["MOVE_N", 5]
 
 
 def test_phase_2_player_1_imitation():
@@ -118,8 +118,8 @@ def test_phase_2_player_1_imitation():
 
     obs = _make_mock_observation(day=1, hour=3)
     action = opp.act(obs)
-    # step_idx = 1 * 24 + 3 = 27 -> 27 % 20 = 7
-    assert action["farmer"] == ["MOVE_S", 7]
+    # step_idx = (1 - 1) * 24 + 3 = 3 -> 3 % 20 = 3
+    assert action["farmer"] == ["MOVE_S", 3]
 
 
 def test_phase_3_subagent_2_imitation():
