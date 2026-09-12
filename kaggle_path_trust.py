@@ -18,7 +18,10 @@ import re
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Sequence, Tuple
 
-import ahocorasick
+try:
+    import ahocorasick
+except ImportError:
+    ahocorasick = None
 
 from private_key_aho_guard import (
     UnexpectedAutomatonBehavior,
@@ -128,25 +131,41 @@ class AhoCorasick:
         refuse_needles_if_guarded(needles)
         self.case_insensitive = case_insensitive
         self._needles = list(needles)
-        # Default STORE_ANY: iter yields (end_index, value) with our needle string as value.
-        self._automaton = ahocorasick.Automaton()
-        for needle in self._needles:
-            key = needle.lower() if case_insensitive else needle
-            if not key:
-                continue
-            self._automaton.add_word(key, needle)
-        self._automaton.make_automaton()
+        if ahocorasick is not None:
+            self._automaton = ahocorasick.Automaton()
+            for needle in self._needles:
+                key = needle.lower() if case_insensitive else needle
+                if not key:
+                    continue
+                self._automaton.add_word(key, needle)
+            self._automaton.make_automaton()
+        else:
+            self._automaton = None
 
     def finditer(self, text: str) -> List[MatchHit]:
         refuse_if_guarded_private_key(text or "", where="haystack")
         text_n = (text or "").lower() if self.case_insensitive else (text or "")
         hits: List[MatchHit] = []
-        for end_idx, needle in self._automaton.iter(text_n):
-            key = str(needle).lower() if self.case_insensitive else str(needle)
-            start = end_idx - len(key) + 1
-            hits.append(
-                MatchHit(start=start, end=end_idx + 1, needle=str(needle), source="aho")
-            )
+        if self._automaton is not None:
+            for end_idx, needle in self._automaton.iter(text_n):
+                key = str(needle).lower() if self.case_insensitive else str(needle)
+                start = end_idx - len(key) + 1
+                hits.append(
+                    MatchHit(start=start, end=end_idx + 1, needle=str(needle), source="aho")
+                )
+        else:
+            for needle in self._needles:
+                target = needle.lower() if self.case_insensitive else needle
+                start = 0
+                while True:
+                    idx = text_n.find(target, start)
+                    if idx == -1:
+                        break
+                    hits.append(
+                        MatchHit(start=idx, end=idx + len(target), needle=str(needle), source="aho")
+                    )
+                    start = idx + 1
+            hits.sort(key=lambda h: (h.start, h.end))
         return hits
 
     def search(self, text: str) -> bool:

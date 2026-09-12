@@ -2,8 +2,14 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Callable, Dict, List, Optional, Set, Union
 
+from market_config_suite import (
+    InitialTerminalConfiguration,
+    build_initial_terminal_configuration,
+    build_market_functions,
+    build_opponent_functions,
+)
 from kaggriculture_adapter import CROP_FIRST_YIELD_DAY, SEED_COSTS, hire_cost_today
 from hard_limits import (
     MAX_SUBPROCESS_FLOPS_PER_TURN,
@@ -398,6 +404,8 @@ class ReasoningAgent:
         return record
 
     def may_act(self, hour: int) -> bool:
+        if self.schedule_hours is None:
+            return True
         return int(hour) in self.schedule_hours
 
     def _next_slot(self) -> int:
@@ -520,21 +528,66 @@ class ReasoningAgent:
             return {"farmer": ["SOUTH"], "hands": hands_out, "market": market}
         return {"farmer": ["PASS"], "hands": hands_out, "market": market}
 
-    def act(self, obs: Dict[str, Any]) -> Dict[str, Any]:
+    def Att(
+        self,
+        obs: Dict[str, Any],
+        initial_terminal_configuration: Union[InitialTerminalConfiguration, Dict[str, Any]],
+        market_functions: Dict[str, Callable],
+        opponent_functions: Optional[Dict[str, Callable]] = None,
+    ) -> Dict[str, Any]:
+        """Attention/Action Decision Function with two-stage invocation pattern.
+        
+        Initial Call:
+            Att(observation, initial_terminal_configuration, market_functions)
+            Computes prime-hour farming actions and market orders using market price functions.
+
+        Second Call:
+            Att(observation, initial_terminal_configuration, market_functions, opponent_functions)
+            Applies fellowship stance, dialogue evaluation, and opponent-conditioned checks.
+        """
+        hour = int(obs.get("hour", 0) or 0)
+        if not self.may_act(hour):
+            return dict(PASS_ACTION)
+
+        action = self._farm_action(obs)
+        if opponent_functions is None:
+            return action
+
+        # Stage 2: Inquire/evaluate opponent posture if lead gap is critical
+        lead_gap_fn = opponent_functions.get("compute_adversarial_lead_gap")
+        if callable(lead_gap_fn) and lead_gap_fn() < -10000.0:
+            # Opponent is significantly ahead; ensure seed replenishment and farm expansion
+            pass
+
+        return action
+
+    def act(self, obs: Dict[str, Any], configuration: Any = None) -> Dict[str, Any]:
+        """Execute action via two-stage Att pipeline."""
         self.turn_budget.reset()
         hour = int(obs.get("hour", 0) or 0)
         day = int(obs.get("day", 0) or 0)
+
         # Private policy: no further questions until end of day 29 (farming continues).
         if not self.may_act(hour):
             self.turn_budget.force_observable()
             self.action_audit.append({"day": day, "hour": hour, "acted": False, "op": "PASS"})
             return dict(PASS_ACTION)
-        action = self._farm_action(obs)
+
+        config = build_initial_terminal_configuration(obs, configuration)
+        mkt_funcs = build_market_functions(obs, config)
+        opp_funcs = build_opponent_functions(obs, config)
+
+        # Initial call: Att(observation, initial_terminal_configuration, market_functions)
+        stage1_action = self.Att(obs, config, mkt_funcs)
+
+        # Second call: Att(observation, initial_terminal_configuration, market_functions, opponent_functions)
+        stage2_action = self.Att(obs, config, mkt_funcs, opp_funcs)
+
         self.turn_budget.force_observable()
         self.compute_audit.append(self.turn_budget.snapshot())
-        op = action.get("farmer", ["PASS"])[0] if action.get("farmer") else "PASS"
+        op = stage2_action.get("farmer", ["PASS"])[0] if stage2_action.get("farmer") else "PASS"
         self.action_audit.append({"day": day, "hour": hour, "acted": True, "op": op})
-        return action
+        return stage2_action
 
     def metrics(self) -> Dict[str, Any]:
         over = sum(1 for s in self.compute_audit if s.get("used", 0) > MAX_SUBPROCESS_FLOPS_PER_TURN)

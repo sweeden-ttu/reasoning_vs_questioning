@@ -25,7 +25,14 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Protocol, Sequence, runtime_checkable
+from typing import Any, Callable, Dict, List, Optional, Protocol, Sequence, Union, runtime_checkable
+
+from market_config_suite import (
+    InitialTerminalConfiguration,
+    build_initial_terminal_configuration,
+    build_market_functions,
+    build_opponent_functions,
+)
 
 from hard_limits import (
     MAX_SUBPROCESS_FLOPS_PER_TURN,
@@ -118,6 +125,30 @@ class BaseSlotAgent:
             "mode": self.mode,
             "advice_count": len(self.advice_log),
         }
+
+    def Att(
+        self,
+        obs: Dict[str, Any],
+        initial_terminal_configuration: Union[InitialTerminalConfiguration, Dict[str, Any]],
+        market_functions: Dict[str, Callable],
+        opponent_functions: Optional[Dict[str, Callable]] = None,
+    ) -> Dict[str, Any]:
+        """Attention/Action Decision Function with two-stage invocation pattern.
+        
+        Subagents produce advice records across Stage 1 (market) and Stage 2 (opponent).
+        """
+        advice = self.advise(obs, question="Stage 1 Market Projections" if opponent_functions is None else "Stage 2 Opponent Synthesis")
+        return {"farmer": ["PASS"], "hands": [], "market": [], "advice": advice}
+
+    def act(self, obs: Dict[str, Any], configuration: Any = None) -> Dict[str, Any]:
+        """Subagent two-stage act execution."""
+        config = build_initial_terminal_configuration(obs, configuration)
+        mkt_funcs = build_market_functions(obs, config)
+        opp_funcs = build_opponent_functions(obs, config)
+
+        stage1_action = self.Att(obs, config, mkt_funcs)
+        stage2_action = self.Att(obs, config, mkt_funcs, opp_funcs)
+        return stage2_action
 
 
 # ── Slot 0 ──────────────────────────────────────────────────────────────────

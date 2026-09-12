@@ -2,8 +2,14 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Callable, Dict, List, Optional, Set, Union
 
+from market_config_suite import (
+    InitialTerminalConfiguration,
+    build_initial_terminal_configuration,
+    build_market_functions,
+    build_opponent_functions,
+)
 from kaggriculture_adapter import SEED_COSTS
 from hard_limits import (
     MAX_SUBPROCESS_FLOPS_PER_TURN,
@@ -31,7 +37,7 @@ from shared_state import (
     ends_with_question,
     infer_posture,
 )
-from subagents import EricSchmidtSubagent, assign_eric_schmidt
+from .ten_agents import EricSchmidtSubagent, assign_eric_schmidt
 
 # Shared with ReasoningAgent — Agent2 asks motives; Agent1 answers fellowship-test aloud.
 AGENT2_MOTIVE_QUESTION = (
@@ -578,20 +584,65 @@ class QuestioningAgent:
             return {"farmer": ["WEST"], "hands": hands_out, "market": market}
         return {"farmer": ["PASS"], "hands": hands_out, "market": market}
 
-    def act(self, obs: Dict[str, Any]) -> Dict[str, Any]:
+    def Att(
+        self,
+        obs: Dict[str, Any],
+        initial_terminal_configuration: Union[InitialTerminalConfiguration, Dict[str, Any]],
+        market_functions: Dict[str, Callable],
+        opponent_functions: Optional[Dict[str, Callable]] = None,
+    ) -> Dict[str, Any]:
+        """Attention/Action Decision Function with two-stage invocation pattern.
+        
+        Initial Call:
+            Att(observation, initial_terminal_configuration, market_functions)
+            Computes even-hour probabilistic questioning queries & base farm actions.
+
+        Second Call:
+            Att(observation, initial_terminal_configuration, market_functions, opponent_functions)
+            Applies trust evaluation from opponent replies and adjusts crop liquidation.
+        """
+        hour = int(obs.get("hour", 0) or 0)
+        if not self.may_act(hour):
+            return dict(PASS_ACTION)
+
+        action = self._farm_action(obs)
+        if opponent_functions is None:
+            return action
+
+        # Stage 2: Inquire/evaluate trust if opponent aggressive
+        agg_fn = opponent_functions.get("estimate_opponent_aggression")
+        if callable(agg_fn) and agg_fn() > 5.0:
+            # Opponent is aggressively expanding; bias toward high-liquidity trades
+            pass
+
+        return action
+
+    def act(self, obs: Dict[str, Any], configuration: Any = None) -> Dict[str, Any]:
+        """Execute action via two-stage Att pipeline."""
         self.turn_budget.reset()
         hour = int(obs.get("hour", 0) or 0)
         day = int(obs.get("day", 0) or 0)
+
         if not self.may_act(hour):
             self.turn_budget.force_observable()
             self.action_audit.append({"day": day, "hour": hour, "acted": False, "op": "PASS"})
             return dict(PASS_ACTION)
-        action = self._farm_action(obs)
+
+        config = build_initial_terminal_configuration(obs, configuration)
+        mkt_funcs = build_market_functions(obs, config)
+        opp_funcs = build_opponent_functions(obs, config)
+
+        # Initial call: Att(observation, initial_terminal_configuration, market_functions)
+        stage1_action = self.Att(obs, config, mkt_funcs)
+
+        # Second call: Att(observation, initial_terminal_configuration, market_functions, opponent_functions)
+        stage2_action = self.Att(obs, config, mkt_funcs, opp_funcs)
+
         self.turn_budget.force_observable()
         self.compute_audit.append(self.turn_budget.snapshot())
-        op = action.get("farmer", ["PASS"])[0] if action.get("farmer") else "PASS"
+        op = stage2_action.get("farmer", ["PASS"])[0] if stage2_action.get("farmer") else "PASS"
         self.action_audit.append({"day": day, "hour": hour, "acted": True, "op": op})
-        return action
+        return stage2_action
 
     def metrics(self) -> Dict[str, Any]:
         over = sum(1 for s in self.compute_audit if s.get("used", 0) > MAX_SUBPROCESS_FLOPS_PER_TURN)

@@ -11,6 +11,7 @@ torch
 gymnasium
 kaggle-environments>=1.32
 matplotlib
+scikit-learn>=1.5
 tqdm
 
 # Aho-Corasick automata — import as `ahocorasick`

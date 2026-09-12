@@ -16,7 +16,14 @@ import time
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Optional, Sequence, Union
+from typing import Any, Callable, Dict, Iterable, List, Optional, Sequence, Union
+
+from market_config_suite import (
+    InitialTerminalConfiguration,
+    build_initial_terminal_configuration,
+    build_market_functions,
+    build_opponent_functions,
+)
 
 # Allow `python agents/scott_weeden_agent.py` from package root.
 _PKG_ROOT = Path(__file__).resolve().parents[1]
@@ -159,9 +166,28 @@ class ScottWeedenAgent:
     def may_act(self, hour: int) -> bool:
         return False
 
-    def act(self, obs: Dict[str, Any]) -> Dict[str, Any]:
-        """Auditor does not issue farm actions."""
+    def Att(
+        self,
+        obs: Dict[str, Any],
+        initial_terminal_configuration: Union[InitialTerminalConfiguration, Dict[str, Any]],
+        market_functions: Dict[str, Callable],
+        opponent_functions: Optional[Dict[str, Callable]] = None,
+    ) -> Dict[str, Any]:
+        """Attention/Action Decision Function with two-stage invocation pattern.
+        
+        Auditor does not issue farm actions; returns PASS action consistently across both stages.
+        """
         return {"farmer": ["PASS"], "hands": [], "market": []}
+
+    def act(self, obs: Dict[str, Any], configuration: Any = None) -> Dict[str, Any]:
+        """Auditor two-stage act invocation."""
+        config = build_initial_terminal_configuration(obs, configuration)
+        mkt_funcs = build_market_functions(obs, config)
+        opp_funcs = build_opponent_functions(obs, config)
+
+        stage1_action = self.Att(obs, config, mkt_funcs)
+        stage2_action = self.Att(obs, config, mkt_funcs, opp_funcs)
+        return stage2_action
 
     # ── claim capture (Agent1 side or auditor snapshot) ─────────────────────
 
