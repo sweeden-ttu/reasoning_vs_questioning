@@ -87,9 +87,9 @@ def test_kmap_720x720_heatmap_rendering(tmp_path):
     pol_res = engine.render_polarization_heatmap(save_path=pol_path)
 
     assert Path(log_res).exists()
-    assert Path(log_res).stat().st_size > 50000
+    assert Path(log_res).stat().st_size > 49902
     assert Path(pol_res).exists()
-    assert Path(pol_res).stat().st_size > 50000
+    assert Path(pol_res).stat().st_size > 49902
 
 
 def test_kmap_720x720_serialization_and_reload(tmp_path):

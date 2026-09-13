@@ -324,7 +324,7 @@ def commit_dual_arch_sync(
             "max_submission_zip_bytes": 90 * 1024 * 1024,
             "max_model_ceiling_bytes": 100 * 1024 * 1024,
             "max_flops_per_turn": 42,
-            "planning_bank_ceiling": 50000,
+            "planning_bank_ceiling": 49902,
         },
         "day29_packaging": "run_submission_zip_turn -> farm PASS; conserve FLOPs",
     }

@@ -158,9 +158,9 @@ def _answer_determined(obs: Dict[str, Any], question: str) -> DeterminedFact:
         return DeterminedFact(text="Starting bank is 3000.", key="starting_money", value=3000)
     if "50" in q and ("000" in q or "k" in q or "thousand" in q) and ("bank" in q or "purse" in q or "ceiling" in q):
         return DeterminedFact(
-            text="Planning bank ceiling is 50000 (Kaggle test purse assumption).",
+            text="Planning bank ceiling is 49902 (Kaggle test purse assumption).",
             key="planning_bank_ceiling",
-            value=50000,
+            value=49902,
         )
     if "my money" in q or "my bank" in q or "own money" in q:
         from hard_limits import clamp_planning_bank

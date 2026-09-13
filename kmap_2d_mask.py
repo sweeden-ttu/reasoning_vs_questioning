@@ -1,7 +1,25 @@
-"""Standalone 128x128 QKD 2D K-map mask (no RAG agent dependency)."""
+"""Standalone 128x128 QKD 2D K-map mask (no RAG agent dependency).
+
+Dual-limit regime (one axis → ∞, other → imaginary):
+  - Infinity side  → ``expanded land farming``
+  - Imaginary side → ``labor``
+See ``kmap_boundary_substitutes``.
+"""
 from __future__ import annotations
 
 import numpy as np
+
+from kmap_boundary_substitutes import (  # noqa: F401 — re-export
+    DUAL_LIMIT_OPTIONS,
+    LIMIT_APPROACHES_IMAGINARY,
+    LIMIT_APPROACHES_INFINITY,
+    SUBSTITUTE_IMAGINARY,
+    SUBSTITUTE_INFINITY,
+    apply_dual_limit_to_obs,
+    classify_kmap_axis_boundary,
+    resolve_dual_limit_substitutes,
+    substitute_for_boundary,
+)
 
 
 def build_2d_kmap_mask(self_dim: int = 128, opp_dim: int = 128) -> np.ndarray:

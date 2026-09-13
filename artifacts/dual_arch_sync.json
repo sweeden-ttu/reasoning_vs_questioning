@@ -5,7 +5,7 @@
     "max_flops_per_turn": 42,
     "max_model_ceiling_bytes": 104857600,
     "max_submission_zip_bytes": 94371840,
-    "planning_bank_ceiling": 50000
+    "planning_bank_ceiling": 49902
   },
   "identity": "antigravity",
   "identity_disambiguation": {

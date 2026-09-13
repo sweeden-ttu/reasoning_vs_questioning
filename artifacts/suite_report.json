@@ -3286,7 +3286,7 @@
     "submission_max_bytes": 94371840,
     "submission_patch_buffer_bytes": 10485760,
     "max_subprocess_flops_per_turn": 42,
-    "max_planning_bank_coins": 50000,
+    "max_planning_bank_coins": 49902,
     "training_hours_before_size_gate": 24.0,
     "strategy_discovery_days": 14,
     "season_days": 30,

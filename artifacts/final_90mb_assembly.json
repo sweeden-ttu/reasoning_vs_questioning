@@ -65,7 +65,7 @@
     "cause": "action_budget_asymmetry_prime_hours_vs_even_hours",
     "exp10_min_slots_reasoning_wr_ge_0_8": null,
     "hard_limits": {
-      "max_planning_bank_coins": 50000,
+      "max_planning_bank_coins": 49902,
       "max_subprocess_flops_per_turn": 42,
       "notes": {
         "deterministic_code": "Must fit inside the same 90 MB submission package",

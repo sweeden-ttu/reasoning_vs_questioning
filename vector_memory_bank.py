@@ -125,7 +125,7 @@ class StateVectorEncoder:
         s_self[8] = float(np.log1p(max(0.0, p0_money)) / 12.0)
         s_self[9] = _safe_float(p0_farm.get("hires_today", 0), 0.0) / 10.0
         s_self[10] = len(_safe_list(p0_farm.get("unlocked_quadrants", []))) / 4.0
-        s_self[11] = float(np.clip(p0_money / 50000.0, 0.0, 1.0))
+        s_self[11] = float(np.clip(p0_money / 49902.0, 0.0, 1.0))
 
         # Opponent economic posture
         s_opp[8] = float(np.log1p(max(0.0, p1_money)) / 12.0)
@@ -338,7 +338,30 @@ class StateVectorEncoder:
         mask_2d: Optional[np.ndarray] = None,
         polarize: bool = True,
     ) -> np.ndarray:
-        """Encode observation via 2D K-map bilinear interaction matrix into 256-D fused representation."""
+        """Encode observation via 2D K-map bilinear interaction matrix into 256-D fused representation.
+
+        Dual-limit regime: when one axis → ∞ and the other → imaginary, annotate
+        ``obs`` with substitutes ``labor`` and ``expanded land farming``.
+        """
+        try:
+            from kmap_boundary_substitutes import apply_dual_limit_to_obs, resolve_dual_limit_substitutes
+        except ImportError:
+            from reasoning_vs_questioning.kmap_boundary_substitutes import (  # type: ignore
+                apply_dual_limit_to_obs,
+                resolve_dual_limit_substitutes,
+            )
+
+        annotated = apply_dual_limit_to_obs(obs)
+        # Explicit None/'empty' axis tags if callers set them on the obs.
+        dual = annotated.get("kmap_dual_limit") or resolve_dual_limit_substitutes(
+            annotated.get("self_axis"),
+            annotated.get("opp_axis"),
+        )
+        if dual is not None and isinstance(obs, dict):
+            obs["kmap_dual_limit"] = dual
+            obs["kmap_substitute_options"] = list(dual["options"])
+            obs["preferred_actions"] = list(dual["ordered_by_axis"])
+
         s_self, s_opp = self.encode_split(obs)
         outer_prod = np.outer(s_self, s_opp)  # (128, 128)
 

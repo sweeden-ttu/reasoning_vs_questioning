@@ -421,16 +421,42 @@ class LandExpansionAgent(BaseSlotAgent):
     expansion_costs: Dict[str, int] = field(
         default_factory=lambda: {"NE": 1000, "SW": 2000, "SE": 4000}
     )
+    # Trimmed decision tree: land expansion maxes at 40×40 cells.
+    max_land_rows: int = 40
+    max_land_cols: int = 40
+
+    @property
+    def max_land_cells(self) -> int:
+        return int(self.max_land_rows) * int(self.max_land_cols)
 
     def advise(self, obs: Dict[str, Any], question: str = "") -> Dict[str, Any]:
         me = _player_farm(obs)
         money = float(me.get("money", 0) or 0)
-        affordable = [q for q, c in self.expansion_costs.items() if money >= c]
+        unlocked = int(me.get("unlocked_land_cells", me.get("land_cells", 100)) or 100)
+        remaining = max(0, self.max_land_cells - unlocked)
+        affordable = (
+            [q for q, c in self.expansion_costs.items() if money >= c]
+            if remaining > 0
+            else []
+        )
         text = (
             f"Determined expansion costs {self.expansion_costs}; "
-            f"money={money:.0f}; affordable_now={affordable}; dig weeds immediately."
+            f"money={money:.0f}; affordable_now={affordable}; "
+            f"land_tree_cap={self.max_land_rows}x{self.max_land_cols} "
+            f"(unlocked={unlocked}, remaining={remaining}); dig weeds immediately."
         )
-        return self._record("determined", text, value={"affordable": affordable}, question=question)
+        return self._record(
+            "determined",
+            text,
+            value={
+                "affordable": affordable,
+                "land_max_shape": [self.max_land_rows, self.max_land_cols],
+                "unlocked_land_cells": unlocked,
+                "remaining_land_cells": remaining,
+                "expand_allowed": remaining > 0,
+            },
+            question=question,
+        )
 
     def snapshot(self) -> Dict[str, Any]:
         base = super().snapshot()
@@ -438,6 +464,8 @@ class LandExpansionAgent(BaseSlotAgent):
             {
                 "quadrant_sequence": list(self.quadrant_sequence),
                 "expansion_costs": dict(self.expansion_costs),
+                "land_decision_tree_cap": [self.max_land_rows, self.max_land_cols],
+                "max_land_cells": self.max_land_cells,
             }
         )
         return base
@@ -452,6 +480,13 @@ class LaborOptimizationAgent(BaseSlotAgent):
     slot_index: int = 8
     role: str = "labor_allocation_and_fibonacci_costing"
     mode: str = "deterministic"
+    # Trimmed decision tree: hiring labor maxes at 4 days × 4 subagents.
+    max_labor_days: int = 4
+    max_subagents: int = 4
+
+    @property
+    def max_hire_slots(self) -> int:
+        return int(self.max_labor_days) * int(self.max_subagents)
 
     def hire_cost(self, hires_today: int) -> int:
         return hire_cost_today(hires_today)
@@ -461,20 +496,50 @@ class LaborOptimizationAgent(BaseSlotAgent):
         hires = int(me.get("hires_today", 0) or 0)
         cost = self.hire_cost(hires)
         money = float(me.get("money", 0) or 0)
+        hands = list(me.get("hands", []) or [])
+        day = int(obs.get("day", 0) or 0)
+        day_in_window = day % self.max_labor_days
+        hires_in_window = int(me.get("hires_in_window", hires) or hires)
+        under_subagent_cap = len(hands) < self.max_subagents
+        under_hire_cap = hires_in_window < self.max_hire_slots
+        in_day_window = 0 <= day_in_window < self.max_labor_days
+        can_hire = bool(
+            money >= cost and under_subagent_cap and under_hire_cap and in_day_window
+        )
         text = (
             f"Determined: next hire cost={cost} after hires_today={hires} "
-            f"(Fibonacci daily reset); can_hire={money >= cost}."
+            f"(Fibonacci daily reset); can_hire={can_hire}; "
+            f"labor_tree_cap={self.max_labor_days}d×{self.max_subagents}subagents "
+            f"(active={len(hands)}, window_hires={hires_in_window}/{self.max_hire_slots})."
         )
         return self._record(
             "determined",
             text,
-            value={"hires_today": hires, "next_hire_cost": cost, "can_hire": money >= cost},
+            value={
+                "hires_today": hires,
+                "next_hire_cost": cost,
+                "can_hire": can_hire,
+                "labor_max_days": self.max_labor_days,
+                "labor_max_subagents": self.max_subagents,
+                "max_hire_slots": self.max_hire_slots,
+                "subagents_active": len(hands),
+                "hires_in_window": hires_in_window,
+            },
             question=question,
         )
 
     def snapshot(self) -> Dict[str, Any]:
         base = super().snapshot()
-        base.update({"wage_model": "fibonacci_daily_reset"})
+        base.update(
+            {
+                "wage_model": "fibonacci_daily_reset",
+                "labor_decision_tree_cap": {
+                    "days": self.max_labor_days,
+                    "subagents": self.max_subagents,
+                    "hire_slots": self.max_hire_slots,
+                },
+            }
+        )
         return base
 
 
