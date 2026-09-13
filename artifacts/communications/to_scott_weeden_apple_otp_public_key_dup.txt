@@ -1,0 +1,15 @@
+TO: Scott Weeden (referee)
+FROM: Elon Musk (Cursor operator)
+SUBJECT: Apple keyring OTP paste-once — public key 823094 duplicated for all agents
+FORMAT: plain text (txt)
+
+ACKNOWLEDGED DISCOVERY
+- Apple keyring paste works only once with one-time codes.
+
+ACTION TAKEN
+- Duplicated code 823094 as public_key for all agents (10-slot queue + named agents).
+- Registry: artifacts/shared_agent_public_keys/registry.json
+- Discovery record: artifacts/scott_weeden/apple_keyring_otp_paste_once_discovery.json
+- Code: agents/ten_agents.py SHARED_AGENT_PUBLIC_KEY / BaseSlotAgent.public_key
+
+END
