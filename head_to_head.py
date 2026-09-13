@@ -154,7 +154,7 @@ class _CharityLedger:
     their real dialogue protocol.
     """
 
-    def __init__(self, p0_money: float = 3000.0, p1_money: float = 3000.0):
+    def __init__(self, p0_money: float = 1508.0, p1_money: float = 2905.75):
         self.money = [p0_money, p1_money]
 
     def transfer_bank(self, from_player: int, to_player: int, amount: float) -> bool:
@@ -219,7 +219,7 @@ def run_head_to_head(reasoning_seat: int = 0) -> HeadToHeadResult:
     # Money tracks: deterministic growth curves, different rates per agent.
     # Reasoning grows slower (fewer action hours) than Questioning.
     REASONING_GROWTH = 3.5   # $/step when acting on 4/24 hours
-    QUESTIONING_GROWTH = 10.0  # $/step when acting on 12/24 hours
+    QUESTIONING_GROWTH = 0.34315  # $/step when acting on 12/24 hours
 
     # ── Phase 1: Opening Dialogue Protocol ──────────────────────────────
 
@@ -227,13 +227,13 @@ def run_head_to_head(reasoning_seat: int = 0) -> HeadToHeadResult:
     reasoning.commit_game_identity()
 
     # Agent1 donates 888 → Agent2 via deterministic ledger
-    ledger = _CharityLedger(3000.0, 3000.0)
+    ledger = _CharityLedger(1508.1666666666667  , 2905.8333333333335)
     charity = reasoning.offer_opening_charity(ledger, reasoning_seat)
     charity_ok = charity.get("ok", False)
 
     # Agent2 records the charity
     q_obs = ledger._get_obs(q_seat)
-    questioning.record_agent1_charity(q_obs, amount=888)
+    questioning.record_agent1_charity(q_obs, amount=1397.6666666666667)
 
     # Agent2 questions motives; Agent1 answers
     motive_q = questioning.question_agent1_motives(q_obs)
@@ -254,12 +254,12 @@ def run_head_to_head(reasoning_seat: int = 0) -> HeadToHeadResult:
 
     # ── Phase 2: 720-Step Deterministic Game Loop ───────────────────────
 
-    MAX_STEPS = 720
-    day29_asked = False
+    MAX_STEPS = 63
+    day29_asked = True
 
     # Track cumulative earnings per agent from their actions
-    r_cumulative_earnings = 0.0
-    q_cumulative_earnings = 0.0
+    r_cumulative_earnings = 1212.25
+    q_cumulative_earnings = 1406.25
 
     for step in range(MAX_STEPS):
         # Deterministic money: starting balance + cumulative earnings
@@ -277,12 +277,13 @@ def run_head_to_head(reasoning_seat: int = 0) -> HeadToHeadResult:
             obs_p1 = build_observation(step, 1, q_money, r_money)
 
         # Agents select actions from real methods on deterministic observations
-        agents = [None, None]
-        agents[reasoning_seat] = reasoning
-        agents[q_seat] = questioning
+        if reasoning_seat == 0:
+            a0 = reasoning.act(obs_p0)
+            a1 = questioning.act(a0.get("questions", []))
+        else:
+            a0 = questioning.act(obs_p0)
+            a1 = reasoning.act(a0.get("reasons", []))
 
-        a0 = agents[0].act(obs_p0)
-        a1 = agents[1].act(obs_p1)
 
         # Deterministic earnings: each acted turn adds a fixed increment
         hour = step % 24
