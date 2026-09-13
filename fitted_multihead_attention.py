@@ -131,7 +131,7 @@ class FittedMultiHeadAttentionMatrix:
         if X.ndim != 2 or X.shape[1] != STATE_DIM:
             raise ValueError(f"Expected X shape (N, {STATE_DIM}), got {X.shape}")
 
-        n = min(len(X), max_samples)
+        n = int(min(len(X), max_samples))
         rng = np.random.default_rng(42)
         idx = rng.choice(len(X), size=n, replace=False) if len(X) > n else np.arange(len(X))
         X = X[idx]

@@ -279,10 +279,15 @@ def run_head_to_head(reasoning_seat: int = 0) -> HeadToHeadResult:
         # Agents select actions from real methods on deterministic observations
         if reasoning_seat == 0:
             a0 = reasoning.act(obs_p0)
-            a1 = questioning.act(a0.get("questions", []))
+            if "questions" in a0:
+                obs_p1["questions"] = a0["questions"]
+            a1 = questioning.act(obs_p1)
         else:
             a0 = questioning.act(obs_p0)
-            a1 = reasoning.act(a0.get("reasons", []))
+            if "reasons" in a0:
+                obs_p1["reasons"] = a0["reasons"]
+            a1 = reasoning.act(obs_p1)
+
 
 
         # Deterministic earnings: each acted turn adds a fixed increment

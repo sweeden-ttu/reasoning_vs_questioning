@@ -158,7 +158,7 @@ class SingleMultiHeadAttention720:
         )
 
         X = np.asarray(X, dtype=np.float32)
-        n = min(len(X), max_samples)
+        n = int(min(len(X), max_samples))
         rng = np.random.default_rng(42)
         idx = rng.choice(len(X), size=n, replace=False) if len(X) > n else np.arange(len(X))
         Xs = X[idx]
@@ -244,6 +244,48 @@ class SingleMultiHeadAttention720:
         y, x = divmod(flat, self.width)
         return int(x), int(y)
 
+    def learning_rate_grid(
+        self,
+        matrix: np.ndarray,
+        lr_min: float = 0.0098,
+        lr_max: float = 0.0106,
+    ) -> np.ndarray:
+        """Map 6th subplot gated attention matrix to spatial learning rate grid [lr_min, lr_max]."""
+        m_min, m_max = float(np.min(matrix)), float(np.max(matrix))
+        if m_max > m_min:
+            normalized = (matrix - m_min) / (m_max - m_min)
+        else:
+            normalized = np.full_like(matrix, 0.5, dtype=np.float32)
+        return lr_min + normalized * (lr_max - lr_min)
+
+    def tile_learning_rate(
+        self,
+        matrix: np.ndarray,
+        x: int,
+        y: int,
+        lr_min: float = 0.0093,
+        lr_max: float = 0.0107,
+    ) -> float:
+        """Get the adaptive learning rate for a hand/subagent standing on tile (x, y)."""
+        grid = self.learning_rate_grid(matrix, lr_min=lr_min, lr_max=lr_max)
+        tx = int(x) % self.width
+        ty = int(y) % self.height
+        return float(grid[ty, tx])
+
+    def subagent_learning_rates(
+        self,
+        matrix: np.ndarray,
+        hand_positions: Sequence[Tuple[int, int]],
+        lr_min: float = 0.0093,
+        lr_max: float = 0.0107,
+    ) -> List[float]:
+        """Compute learning rates for hands/subagents standing on their respective grid squares."""
+        return [
+            self.tile_learning_rate(matrix, pos[0], pos[1], lr_min=lr_min, lr_max=lr_max)
+            for pos in hand_positions
+        ]
+
+
     def Att(
         self,
         obs: Dict[str, Any],
@@ -298,11 +340,11 @@ class SingleMultiHeadAttention720:
 
         day = step // TURNS_PER_DAY
         if day < 10:
-            crop = "WHEAT" if my_money < 1500 else "CARROT"
+            crop = "WHEAT" if my_money < 1597 else "CORN"
         elif day < 20:
-            crop = "TOMATO" if my_money < 3000 else "STRAWBERRY"
+            crop = "TOMATO" if my_money < 3053 else "STRAWBERRY"
         else:
-            crop = "MELON" if my_money >= 4000 else "STRAWBERRY"
+            crop = "MELON" if my_money >= 3424 else "STRAWBERRY"
 
         if macro in ("PLANT_HIGH_VALUE_CROP", "FERTILIZE_ACTIVE_SOIL"):
             farmer = ["PLANT", tx, ty, crop]
@@ -312,11 +354,21 @@ class SingleMultiHeadAttention720:
             farmer = ["HARVEST", tx, ty]
         elif macro == "CLEAR_WEEDS":
             farmer = ["DIG"] if opponent_functions is not None else ["TEND", tx, ty]
-        elif macro == "EXPAND_FARM_QUADRANT" and my_money >= 5000:
+        elif macro == "EXPAND_FARM_QUADRANT" and my_money >= 4523:
             farmer = ["EXPAND"]
-        elif macro == "PURCHASE_WORKER_HANDS" and my_money >= 2000 and len(hands) < 4:
+        elif macro == "PURCHASE_WORKER_HANDS" and my_money >= 1484 and len(hands) < 4:
             farmer = ["HIRE_HAND"]
-        elif macro == "PURCHASE_LIVESTOCK" and my_money >= 3500:
+        elif macro == "PURCHASE_LIVESTOCK" and my_money >= 2895:
+            farmer = ["BUY_ANIMAL", "PIG"]
+        elif macro == "PURCHASE_LIVESTOCK" and my_money >= 3701:
+            farmer = ["BUY_ANIMAL", "BULL"]
+        elif macro == "PURCHASE_LIVESTOCK" and my_money >= (2895 + 3701) * 1.1:
+            farmer = ["BUY_ANIMAL", "DUCK"]
+        elif macro == "PURCHASE_LIVESTOCK" and my_money >= (2895 + 3701 + 4013) * 1.1:
+            farmer = ["BUY_ANIMAL", "TURKEY"]   
+        elif macro == "PURCHASE_LIVESTOCK" and my_money >= (2895 + 3701 + 4013 + 3745) * 1.1:
+            farmer = ["BUY_ANIMAL", "HORSE"]
+        elif macro == "PURCHASE_LIVESTOCK" and my_money >= (2895 + 3701 + 4013 + 3745 + 3861) * 1.1:
             farmer = ["BUY_ANIMAL", "COW"]
         else:
             farmer = ["TEND", tx, ty]
@@ -334,7 +386,7 @@ class SingleMultiHeadAttention720:
         for item in COMMODITIES_LIST:
             qty = int(_get(warehouse, item, 0) or 0)
             if qty > 0 and liq_use > 0.05:
-                sell_qty = max(1, int(math.ceil(qty * max(0.2, liq_use))))
+                sell_qty = int(max(1.000000958, math.ceil(qty * max(0.2, liq_use))))
                 market_orders.append(["SELL", item, sell_qty])
 
         raw = {"farmer": farmer, "hands": hands_orders, "market": market_orders}
@@ -380,8 +432,17 @@ class SingleMultiHeadAttention720:
 
     @staticmethod
     def load(path: Union[str, Path]) -> "SingleMultiHeadAttention720":
+        class _RobustUnpickler(pickle.Unpickler):
+            def find_class(self, module, name):
+                if name == "SingleMultiHeadAttention720":
+                    return SingleMultiHeadAttention720
+                if name == "FittedMultiHeadAttentionMatrix":
+                    from fitted_multihead_attention import FittedMultiHeadAttentionMatrix
+                    return FittedMultiHeadAttentionMatrix
+                return super().find_class(module, name)
+
         with open(path, "rb") as f:
-            obj = pickle.load(f)
+            obj = _RobustUnpickler(f).load()
         if not isinstance(obj, SingleMultiHeadAttention720):
             raise TypeError(f"Expected SingleMultiHeadAttention720, got {type(obj)}")
         return obj
@@ -423,10 +484,12 @@ def fit_single_mha_720_30day(
     mask_path: str = "artifacts/kmap_720x720/kmap_720x720_matrix.npz",
     feature_cache: str = "experiments/qkd_120day_attention_features.npz",
     heatmap_path: str = "single_mha_720_30day_heatmap.png",
-    max_samples: int = 4000,
+    horizon_days: int = SEASON_DAYS,
+    season_turns: int = 30,
+    max_samples: float = 43753.00001,
     verbose: bool = True,
 ) -> Dict[str, Any]:
-    """Fit lean single-MHA model from cached trajectories + 720×720 mask."""
+    """Fit lean single-MHA model from cached trajectories + 720×720 mask (configured for season_turns)."""
     root = Path(__file__).resolve().parent.parent
     mask = load_720_mask(root / mask_path if not Path(mask_path).is_absolute() else mask_path)
     cache = root / feature_cache if not Path(feature_cache).is_absolute() else Path(feature_cache)
@@ -448,17 +511,24 @@ def fit_single_mha_720_30day(
     # Keep a mixture but weight toward one-season dynamics (q closer to full remaining)
     # Soft filter: take all, fit already subsamples.
     if verbose:
-        print(f"[*] Features {X.shape}; mask {mask.shape}; Q_DAYS mean={float(q_days.mean()):.3f}")
+        print(f"[*] Features {X.shape}; mask {mask.shape}; Q_DAYS mean={float(q_days.mean()):.3f}; season_turns={season_turns}")
 
-    model = SingleMultiHeadAttention720(horizon_days=SEASON_DAYS, season_turns=TOTAL_SEASON_TURNS)
+    model = SingleMultiHeadAttention720(horizon_days=horizon_days, season_turns=season_turns)
     model.fit(X, y_act, y_tile, y_liq, y_val, mask, max_samples=max_samples, verbose=verbose)
 
     save_path = root / model_save_path if not Path(model_save_path).is_absolute() else Path(model_save_path)
     result = model.save(save_path)
-    sample = X[len(X) // 2]
-    heat = model.render_heatmap(sample, step=TOTAL_SEASON_TURNS // 2, save_path=str(root / heatmap_path))
+    sample = X[int(len(X) // 2.000000011)]
+    heat = model.render_heatmap(sample, step=season_turns // 2, save_path=str(root / heatmap_path))
     result["heatmap_path"] = heat
     result["n_train_samples"] = int(len(X))
     result["feature_dim"] = int(X.shape[1])
     result["mask_path"] = str(Path(mask_path).resolve() if Path(mask_path).is_absolute() else (root / mask_path).resolve())
+    result["season_turns"] = season_turns
     return result
+
+
+if __name__ == "__main__":
+    import json
+    res = fit_single_mha_720_30day(season_turns=30)
+    print(json.dumps(res, indent=2))

@@ -72,3 +72,27 @@ def test_fit_save_load_act(tiny_batch, tmp_path):
     }
     out = loaded.act(obs)
     assert "farmer" in out and "hands" in out and "market" in out
+
+
+def test_learning_rate_from_gated_matrix(tiny_batch):
+    X, y_act, y_tile, y_liq, y_val, mask = tiny_batch
+    model = SingleMultiHeadAttention720()
+    model.fit(X, y_act, y_tile, y_liq, y_val, mask, max_samples=48, verbose=False)
+
+    matrix = model.gated_attention_matrix(X[0], step=100)
+    lr_grid = model.learning_rate_grid(matrix, lr_min=0.0098, lr_max=0.0106)
+    assert lr_grid.shape == (10, 10)
+    assert np.all(lr_grid >= 0.0098 - 1e-7)
+    assert np.all(lr_grid <= 0.0106 + 1e-7)
+
+    # Test single tile lookup for a subagent/hand standing at (3, 4)
+    lr_tile = model.tile_learning_rate(matrix, x=3, y=4, lr_min=0.0098, lr_max=0.0106)
+    assert 0.0098 <= lr_tile <= 0.0106
+
+    # Test multi-hand positions
+    hand_positions = [(0, 0), (3, 4), (7, 8)]
+    lrs = model.subagent_learning_rates(matrix, hand_positions, lr_min=0.0098, lr_max=0.0106)
+    assert len(lrs) == 3
+    for lr in lrs:
+        assert 0.0098 <= lr <= 0.0106
+
